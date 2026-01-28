@@ -29,7 +29,7 @@ const defaultTabs: TabContent[] = [
       'Hey Danny, I just read your tweet about the Elon Musk interview — great insights on AI in business!',
       'Hey Steve, I just read your LinkedIn post about Amex topping the Best Workplaces in New York list — congrats!'
     ],
-    gif: '/twitter:linkedin post.gif',
+    gif: '/twitterlinkedin post.gif',
     image: '/twitter_linkedin_post.png'
   },
   {
@@ -145,7 +145,10 @@ const items = tabs?.length > 0 ? tabs : defaultTabs;
 
             <!-- Right Panel: GIF Area -->
             <div class="content-right">
-              <div class="gif-container">
+              <div 
+                class="gif-container" 
+                style={`--mask-url: url("${String(tab.gif || tab.image || '/twitter_linkedin_post.png').replace(/"/g, '\\"')}")`}
+              >
                 <img 
                   src={encodeURI(tab.gif || tab.image || '/twitter_linkedin_post.png')} 
                   alt={`${tab.label} demonstration`}
@@ -359,6 +362,26 @@ const items = tabs?.length > 0 ? tabs : defaultTabs;
     border-radius: 8px;
     overflow: hidden;
     background: transparent;
+    position: relative;
+  }
+
+  .gif-container::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.18) 45%, transparent 100%);
+    pointer-events: none;
+    border-radius: 8px;
+    -webkit-mask-image: var(--mask-url);
+    mask-image: var(--mask-url);
+    -webkit-mask-size: cover;
+    mask-size: cover;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-mode: alpha;
+    mask-mode: alpha;
   }
 
   .content-gif {

@@ -12,7 +12,7 @@ const {
   title = "Our AI has already booked meetings with...",
   subheading = "Every nine seconds, a new investor email goes through CapitalxAI's workflow—for marketplaces to SaaS startups.",
   ctaLabel = "Start fundraising",
-  ctaHref = "/#start",
+  ctaHref = "https://calendly.com/founders-capitalxai/20min",
   row1 = ['/1.png', '/2.png', '/3.png', '/4.png', '/5.png'],
   row2 = ['/6.png', '/7.png', '/8.png', '/9.png']
 } = Astro.props;
@@ -24,9 +24,8 @@ const {
       <h2 id="booked-meetings-title" class="section-title">{title}</h2>
       <p class="section-subheading">{subheading}</p>
     </div>
-    <a href={ctaHref} class="cta-button">
-      <span>{ctaLabel}</span>
-      <span class="cta-arrow" aria-hidden="true">→</span>
+    <a href={ctaHref} class="cta-button" target="_blank" rel="noopener noreferrer">
+      {ctaLabel}
     </a>
   </div>
   <div class="floating-images-inner">
@@ -58,6 +57,9 @@ const {
     padding-block: 4rem 5rem;
     background: #0b1020;
     overflow: hidden;
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100%;
   }
 
   .floating-header {
@@ -119,10 +121,14 @@ const {
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    overflow-x: hidden;
+    width: 100%;
+    min-width: 0;
   }
 
   .marquee-row {
     overflow: hidden;
+    min-width: 0;
     mask-image: linear-gradient(
       to right,
       transparent 0%,
@@ -152,8 +158,8 @@ const {
 
   .marquee-item {
     flex-shrink: 0;
-    width: 320px;
-    height: 200px;
+    width: 440px;
+    height: 275px;
     border-radius: 12px;
     overflow: hidden;
     background: #fff;
@@ -185,8 +191,8 @@ const {
       align-self: flex-start;
     }
     .marquee-item {
-      width: 280px;
-      height: 175px;
+      width: 360px;
+      height: 225px;
     }
     .marquee-track {
       gap: 1.5rem;

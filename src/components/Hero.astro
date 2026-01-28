@@ -26,21 +26,25 @@ const subheadingHtml = subheading.replaceAll('\n', '<br />');
     </h1>
     <p class="hero-subheading" set:html={subheadingHtml} />
     <div class="hero-ctas">
-      <a href={primaryCta.href} class="btn btn-primary">
-        <span>{primaryCta.label}</span>
-        <span class="arrow" aria-hidden="true">→</span>
+      <a href={primaryCta.href} class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+        {primaryCta.label}
       </a>
-      <a href={secondaryCta.href} class="btn btn-secondary">
-        <span>{secondaryCta.label}</span>
-        <span class="arrow" aria-hidden="true">→</span>
+      <a href={secondaryCta.href} class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+        {secondaryCta.label}
       </a>
     </div>
 
     <div class="hero-preview" aria-hidden="true">
       <div class="preview-stack">
-        <img class="preview-center" src="/center.png" alt="" loading="eager" decoding="async" />
-        <img class="preview-left" src="/left.gif" alt="" loading="eager" decoding="async" />
-        <img class="preview-right" src="/right.gif" alt="" loading="eager" decoding="async" />
+        <div class="preview-img-wrap preview-center" style="--mask-url: url('/center.png')">
+          <img class="preview-center" src="/center.png" alt="" loading="eager" decoding="async" />
+        </div>
+        <div class="preview-img-wrap preview-left" style="--mask-url: url('/left.gif')">
+          <img class="preview-left" src="/left.gif" alt="" loading="eager" decoding="async" />
+        </div>
+        <div class="preview-img-wrap preview-right" style="--mask-url: url('/right.gif')">
+          <img class="preview-right" src="/right.gif" alt="" loading="eager" decoding="async" />
+        </div>
       </div>
     </div>
   </div>
@@ -55,6 +59,9 @@ const subheadingHtml = subheading.replaceAll('\n', '<br />');
     justify-content: center;
     padding-block: 5.5rem 6rem;
     overflow: hidden;
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100%;
     /* Slightly lighter base like the screenshot */
     background: #0b1020;
   }
@@ -80,6 +87,13 @@ const subheadingHtml = subheading.replaceAll('\n', '<br />');
     filter: blur(6px);
     opacity: 0.9;
     transform: translate(2%, 4%);
+  }
+
+  @media (max-width: 768px) {
+    .hero-glow {
+      /* Avoid transform extending past hero on narrow viewports */
+      transform: none;
+    }
   }
 
   .hero-vignette {
@@ -153,47 +167,92 @@ const subheadingHtml = subheading.replaceAll('\n', '<br />');
 
   .preview-stack {
     position: relative;
-    /* Wider than text, like screenshot */
-    width: min(1320px, calc(100vw - 3rem));
+    /* Stay within container; avoid 100vw which can overflow on mobile (scrollbar/padding) */
+    width: 100%;
+    max-width: min(1320px, 100vw);
     height: 520px;
   }
 
-  .preview-center,
-  .preview-left,
-  .preview-right {
+  .preview-img-wrap {
     position: absolute;
-    display: block;
     border-radius: 22px;
+    overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow:
       0 28px 70px rgba(0, 0, 0, 0.55),
       0 6px 18px rgba(0, 0, 0, 0.35);
   }
 
-  .preview-center {
+  .preview-img-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.18) 45%, transparent 100%);
+    pointer-events: none;
+    border-radius: 22px;
+    -webkit-mask-image: var(--mask-url);
+    mask-image: var(--mask-url);
+    -webkit-mask-size: cover;
+    mask-size: cover;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-mode: alpha;
+    mask-mode: alpha;
+  }
+
+  .preview-img-wrap .preview-center,
+  .preview-img-wrap .preview-left,
+  .preview-img-wrap .preview-right {
+    position: relative;
+    display: block;
+    border-radius: 22px;
+  }
+
+  .preview-img-wrap.preview-center {
     left: 50%;
     top: 56%;
     height: 430px;
-    width: auto;
-    max-width: min(1120px, 88%);
+    width: max-content;
+    max-width: 100%;
     transform: translate(-50%, -50%);
     z-index: 1;
   }
 
-  .preview-left {
+  .preview-img-wrap.preview-center .preview-center {
+    height: 100%;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  .preview-img-wrap.preview-left {
     left: 0%;
     bottom: 8%;
     width: min(330px, 26%);
     transform: translate(0, 0);
-    z-index: 5; /* sits in front of center */
+    z-index: 5;
   }
 
-  .preview-right {
-    right: -0.25%;
+  .preview-img-wrap.preview-left .preview-left {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .preview-img-wrap.preview-right {
+    right: 0;
     bottom: 18%;
     width: min(480px, 40%);
-    z-index: 4; /* sits in front of center */
+    z-index: 4;
     opacity: 0.98;
+  }
+
+  .preview-img-wrap.preview-right .preview-right {
+    width: 100%;
+    height: auto;
+    display: block;
   }
 
   .btn {
@@ -255,21 +314,21 @@ const subheadingHtml = subheading.replaceAll('\n', '<br />');
       height: 360px;
     }
 
-    .preview-center {
+    .preview-img-wrap.preview-center {
       height: 270px;
       max-width: 100%;
       transform: translate(-50%, -50%);
     }
 
-    .preview-left {
+    .preview-img-wrap.preview-left {
       width: 44%;
       bottom: 10%;
     }
 
-    .preview-right {
+    .preview-img-wrap.preview-right {
       width: 58%;
       bottom: 22%;
-      right: -4%;
+      right: 0;
     }
   }
 </style>

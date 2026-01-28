@@ -11,7 +11,7 @@ interface Props {
 const { title, description, canonical, ogImage, ogType = 'website', noindex = false } = Astro.props;
 const siteUrl = Astro.site?.toString() ?? 'https://capitalxai.com';
 const canonicalUrl = canonical ? new URL(canonical, siteUrl).href : new URL(Astro.url.pathname, siteUrl).href;
-const defaultOgImage = new URL('/og-image.png', siteUrl).href;
+const defaultOgImage = new URL('/Open Graph CapitalxAI.png', siteUrl).href;
 const imageUrl = ogImage ? new URL(ogImage, siteUrl).href : defaultOgImage;
 
 const structuredData = {
@@ -80,7 +80,7 @@ const structuredData = {
     <!-- Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   </head>
   <body>
@@ -114,6 +114,7 @@ const structuredData = {
 
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
 
   body {
@@ -124,6 +125,14 @@ const structuredData = {
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    overflow-wrap: break-word;
+  }
+
+  #main-content {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100%;
   }
 
   img {

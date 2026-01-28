@@ -9,8 +9,8 @@ interface Props {
 const {
   headline = "Planning to raise capital?",
   subline = "We can help you succeed.",
-  primaryCta = { label: "Start fundraising", href: "/#start" },
-  secondaryCta = { label: "Apply for access", href: "/#apply" }
+  primaryCta = { label: "Start fundraising", href: "https://calendly.com/founders-capitalxai/20min" },
+  secondaryCta = { label: "Login", href: "https://app.capitalxai.com/signup" }
 } = Astro.props;
 ---
 
@@ -21,13 +21,11 @@ const {
       <h2 id="raise-capital-heading" class="cta-headline">{headline}</h2>
       <p class="cta-subline">{subline}</p>
       <div class="cta-buttons">
-        <a href={primaryCta.href} class="btn btn-primary">
-          <span>{primaryCta.label}</span>
-          <span class="arrow" aria-hidden="true">→</span>
+        <a href={primaryCta.href} class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+          {primaryCta.label}
         </a>
-        <a href={secondaryCta.href} class="btn btn-secondary">
-          <span>{secondaryCta.label}</span>
-          <span class="arrow" aria-hidden="true">→</span>
+        <a href={secondaryCta.href} class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+          {secondaryCta.label}
         </a>
       </div>
     </div>
@@ -45,6 +43,7 @@ const {
     max-width: 56rem;
     margin-inline: auto;
     padding-inline: 1.5rem;
+    overflow: hidden;
   }
 
   .cta-card-inner {

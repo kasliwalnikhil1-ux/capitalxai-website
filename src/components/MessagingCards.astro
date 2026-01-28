@@ -35,19 +35,19 @@ const defaultCards: Card[] = [
     icon: 'lightbulb',
     title: 'Find shared experiences',
     description: 'Foster reciprocity with investors by connecting on commonalities like education or past workplaces.',
-    gif: '/card3.gif'
+    gif: '/card1.gif'
   },
   {
     icon: 'folder',
-    title: 'Contextual multi-step emails',
+    title: 'Multi-step messages',
     description: 'Increase response rates with ultra-personalized multi-step email sequences.',
-    gif: '/card4.gif'
+    gif: '/card2.gif'
   },
   {
     icon: 'document',
     title: 'Pull in powerful investor data',
     description: 'Strengthen relationships by collecting underutilized investor data, such as past investments and fund details.',
-    gif: '/card5.gif'
+    gif: '/card1.gif'
   },
 ];
 
@@ -104,7 +104,7 @@ const items = cards?.length > 0 ? cards : defaultCards;
           </div>
           <p class="card-description">{card.description}</p>
           {card.gif && (
-            <div class="card-gif-container">
+            <div class="card-gif-container" style={`--mask-url: url("${String(card.gif).replace(/"/g, '\\"')}")`}>
               <img 
                 src={card.gif} 
                 alt={`${card.title} demonstration`}
@@ -228,6 +228,26 @@ const items = cards?.length > 0 ? cards : defaultCards;
     width: 100%;
     border-radius: 8px;
     overflow: hidden;
+    position: relative;
+  }
+
+  .card-gif-container::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.18) 45%, transparent 100%);
+    pointer-events: none;
+    border-radius: 8px;
+    -webkit-mask-image: var(--mask-url);
+    mask-image: var(--mask-url);
+    -webkit-mask-size: cover;
+    mask-size: cover;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-mode: alpha;
+    mask-mode: alpha;
   }
 
   .card-gif {

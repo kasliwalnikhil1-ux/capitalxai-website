@@ -69,7 +69,7 @@ const gif2Src = gif2 || '/Persistent outreach strategy.gif';
             <h3 class="feature-card-title">{items[0]?.title}</h3>
             <p class="feature-card-desc">{items[0]?.description}</p>
           </div>
-          <div class="feature-card-right">
+          <div class="feature-card-right" style={`--mask-url: url("${String(gif1Src).replace(/"/g, '\\"')}")`}>
             <img 
               src={encodeURI(gif1Src)} 
               alt="Target with hyper-precision demonstration" 
@@ -98,7 +98,7 @@ const gif2Src = gif2 || '/Persistent outreach strategy.gif';
               <h3 class="feature-card-title">{items[1]?.title}</h3>
               <p class="feature-card-desc">{items[1]?.description}</p>
             </div>
-            <div class="feature-card-right">
+            <div class="feature-card-right" style={`--mask-url: url("${String(gif2Src).replace(/"/g, '\\"')}")`}>
               <img 
                 src={encodeURI(gif2Src)} 
                 alt="Persistent outreach strategy demonstration" 
@@ -191,6 +191,28 @@ const gif2Src = gif2 || '/Persistent outreach strategy.gif';
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .feature-card-right::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.18) 45%, transparent 100%);
+    pointer-events: none;
+    border-radius: 8px;
+    -webkit-mask-image: var(--mask-url);
+    mask-image: var(--mask-url);
+    -webkit-mask-size: cover;
+    mask-size: cover;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-mode: alpha;
+    mask-mode: alpha;
   }
 
   .feature-icon-wrapper {
@@ -243,6 +265,8 @@ const gif2Src = gif2 || '/Persistent outreach strategy.gif';
     height: auto;
     display: block;
     border-radius: 8px;
+    position: relative;
+    z-index: 0;
   }
 
   .features-bottom-row {

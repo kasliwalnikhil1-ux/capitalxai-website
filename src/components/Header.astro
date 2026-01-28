@@ -7,28 +7,105 @@ interface Props {
 const { siteName = 'CapitalxAI', logoHref = '/' } = Astro.props;
 ---
 
-<header class="header">
+<header class="header" id="site-header">
   <div class="container header-inner">
     <a href={logoHref} class="brand" aria-label={`${siteName} home`}>
       <span class="brand-mark" aria-hidden="true">
         <img src="/capitalxai-logo.png" alt="" width="34" height="34" loading="eager" decoding="async" />
       </span>
-      <span class="brand-text">{siteName}</span>
+      <span class="brand-text-block">
+        <span class="brand-text">{siteName}</span>
+        <span class="brand-tagline">AI-powered fundraising</span>
+      </span>
     </a>
 
     <nav class="nav" aria-label="Main">
-      <a href="/" class="nav-link">Home</a>
       <a href="/#about" class="nav-link">About</a>
       <a href="/pricing" class="nav-link">Pricing</a>
       <a href="/#playbooks" class="nav-link">Playbooks</a>
     </nav>
 
     <div class="actions" aria-label="Header actions">
-      <a class="btn btn-outline" href="/#apply">Apply for access</a>
-      <a class="btn btn-solid" href="/#start">Start fundraising</a>
+      <a class="btn btn-outline" href="https://app.capitalxai.com/signup" target="_blank" rel="noopener noreferrer">Login</a>
+      <a class="btn btn-solid" href="https://calendly.com/founders-capitalxai/20min" target="_blank" rel="noopener noreferrer">Start fundraising</a>
+    </div>
+
+    <button
+      type="button"
+      class="hamburger"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      id="hamburger-btn"
+    >
+      <span class="hamburger-bar" aria-hidden="true"></span>
+      <span class="hamburger-bar" aria-hidden="true"></span>
+      <span class="hamburger-bar" aria-hidden="true"></span>
+    </button>
+  </div>
+
+  <div
+    class="mobile-menu"
+    id="mobile-menu"
+    role="dialog"
+    aria-label="Mobile navigation"
+    aria-modal="true"
+    hidden
+  >
+    <nav class="mobile-nav" aria-label="Main">
+      <a href="/#about" class="mobile-nav-link">About</a>
+      <a href="/pricing" class="mobile-nav-link">Pricing</a>
+      <a href="/#playbooks" class="mobile-nav-link">Playbooks</a>
+    </nav>
+    <div class="mobile-actions">
+      <a class="btn btn-outline mobile-btn" href="https://app.capitalxai.com/signup" target="_blank" rel="noopener noreferrer">Login</a>
+      <a class="btn btn-solid mobile-btn" href="https://calendly.com/founders-capitalxai/20min" target="_blank" rel="noopener noreferrer">Start fundraising</a>
     </div>
   </div>
 </header>
+
+<script>
+  const header = document.getElementById('site-header');
+  const hamburger = document.getElementById('hamburger-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const mobileLinks = document.querySelectorAll('.mobile-nav-link, .mobile-actions .btn');
+
+  function openMenu() {
+    hamburger?.setAttribute('aria-expanded', 'true');
+    hamburger?.setAttribute('aria-label', 'Close menu');
+    mobileMenu?.removeAttribute('hidden');
+    header?.classList.add('menu-open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu() {
+    hamburger?.setAttribute('aria-expanded', 'false');
+    hamburger?.setAttribute('aria-label', 'Open menu');
+    mobileMenu?.setAttribute('hidden', '');
+    header?.classList.remove('menu-open');
+    document.body.style.overflow = '';
+  }
+
+  function toggleMenu() {
+    const isOpen = hamburger?.getAttribute('aria-expanded') === 'true';
+    if (isOpen) closeMenu();
+    else openMenu();
+  }
+
+  hamburger?.addEventListener('click', toggleMenu);
+
+  mobileLinks.forEach((link) => {
+    link.addEventListener('click', () => closeMenu());
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMenu();
+  });
+
+  window.matchMedia('(min-width: 861px)').addEventListener('change', (e) => {
+    if (e.matches) closeMenu();
+  });
+</script>
 
 <style>
   .header {
@@ -63,12 +140,27 @@ const { siteName = 'CapitalxAI', logoHref = '/' } = Astro.props;
     justify-content: center;
   }
 
+  .brand-text-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.1rem;
+  }
+
   .brand-text {
     font-size: 2rem;
     font-weight: 700;
     letter-spacing: -0.02em;
     line-height: 1;
     color: rgba(255, 255, 255, 0.96);
+  }
+
+  .brand-tagline {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.55);
   }
 
   .brand:hover {
@@ -138,17 +230,160 @@ const { siteName = 'CapitalxAI', logoHref = '/' } = Astro.props;
     transform: translateY(0px);
   }
 
+  /* Hamburger: hidden on desktop */
+  .hamburger {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    flex-direction: column;
+    gap: 5px;
+    transition: background 0.2s, color 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .hamburger:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .hamburger-bar {
+    display: block;
+    width: 22px;
+    height: 2.5px;
+    background: currentColor;
+    border-radius: 2px;
+    transition: transform 0.25s ease, opacity 0.2s ease;
+  }
+
+  .header.menu-open .hamburger-bar:nth-child(1) {
+    transform: translateY(7.5px) rotate(45deg);
+  }
+
+  .header.menu-open .hamburger-bar:nth-child(2) {
+    opacity: 0;
+  }
+
+  .header.menu-open .hamburger-bar:nth-child(3) {
+    transform: translateY(-7.5px) rotate(-45deg);
+  }
+
+  /* Mobile menu: off-screen above, slides down from top */
+  .mobile-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: linear-gradient(180deg, #0b1020 0%, #0b1020 95%, rgba(11, 16, 32, 0.98) 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 1rem 1.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: max-height 0.3s ease, opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+  }
+
+  .header.menu-open .mobile-menu {
+    max-height: 80vh;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .mobile-menu[hidden] {
+    display: flex !important;
+  }
+
+  .mobile-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .mobile-nav-link {
+    display: block;
+    padding: 0.85rem 0.75rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.88);
+    border-radius: 10px;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .mobile-nav-link:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.98);
+  }
+
+  .mobile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 0.25rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .mobile-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  @media (min-width: 861px) {
+    .mobile-menu {
+      display: none !important;
+    }
+  }
+
   @media (max-width: 860px) {
-    .nav {
+    .header {
+      position: relative;
+    }
+
+    .brand-mark {
+      width: 26px;
+      height: 26px;
+    }
+
+    .brand-mark img {
+      width: 26px;
+      height: 26px;
+    }
+
+    .brand-text {
+      font-size: 1.35rem;
+    }
+
+    .brand-tagline {
+      font-size: 0.6rem;
+    }
+
+    .nav,
+    .actions {
       display: none;
     }
 
     .header-inner {
-      grid-template-columns: auto 1fr;
+      grid-template-columns: 1fr auto;
+      justify-items: start;
     }
 
-    .actions {
-      justify-content: flex-end;
+    .hamburger {
+      display: flex;
+      justify-self: end;
     }
   }
 </style>
