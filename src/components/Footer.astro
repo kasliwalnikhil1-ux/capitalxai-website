@@ -1,0 +1,73 @@
+---
+interface Props {
+  companyName?: string;
+  year?: number;
+}
+
+const { companyName = 'CapitalxAI', year = new Date().getFullYear() } = Astro.props;
+---
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <p class="footer-brand">{companyName}</p>
+    <nav class="footer-nav" aria-label="Footer">
+      <a href="/privacy">Privacy Policy</a>
+      <a href="/terms">Terms</a>
+      <a href="/contact">Contact</a>
+    </nav>
+    <p class="footer-copy">© {year} {companyName}. All rights reserved.</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding-block: 2.5rem 3rem;
+    background: var(--color-bg-elevated);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .footer-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 1.5rem;
+  }
+
+  .footer-brand {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  .footer-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem 1.5rem;
+  }
+
+  .footer-nav a {
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+    transition: color var(--transition);
+  }
+
+  .footer-nav a:hover {
+    color: var(--color-text);
+  }
+
+  .footer-copy {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    width: 100%;
+    text-align: center;
+  }
+
+  @media (min-width: 640px) {
+    .footer-copy {
+      width: auto;
+      text-align: right;
+    }
+  }
+</style>

@@ -1,0 +1,30 @@
+---
+/**
+ * Reusable image component using Astro's built-in image optimization.
+ * Import images in the frontmatter and pass to this component for lazy loading and responsive srcset.
+ */
+import { Image } from 'astro:assets';
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  width?: number;
+  height?: number;
+  loading?: 'lazy' | 'eager';
+  class?: string;
+  format?: 'avif' | 'webp';
+}
+
+const { src, alt, width, height, loading = 'lazy', class: className, format } = Astro.props;
+---
+
+<Image
+  src={src}
+  alt={alt}
+  width={width}
+  height={height}
+  loading={loading}
+  class={className}
+  format={format}
+  decoding="async"
+/>

@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import TrustSection from '../components/TrustSection.astro';
+import Features from '../components/Features.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+---
+
+<BaseLayout
+  title="CapitalxAI – The Best Investor Search Platform"
+  description="Powered by agents with fast, high-quality web research capabilities. AI powered investor discovery, agent driven workflows, and real-time data enrichment."
+  canonical="/"
+>
+  <Header />
+  <main id="main-content">
+    <Hero
+      headline="The Best Investor Search Platform"
+      subheading="Powered by agents with fast, high-quality web research capabilities"
+      primaryCta={{ label: 'Get Started', href: '/#get-started' }}
+      secondaryCta={{ label: 'Request Demo', href: '/contact#demo' }}
+    />
+    <TrustSection title="Trusted by leading teams" />
+    <section id="features" aria-labelledby="features-title">
+      <Features title="Why CapitalxAI" />
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
