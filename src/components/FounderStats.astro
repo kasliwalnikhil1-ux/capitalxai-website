@@ -1,0 +1,147 @@
+---
+interface StatCard {
+  metric: string;
+  title: string;
+  description: string;
+}
+
+interface Props {
+  title?: string;
+  subheading?: string;
+  cards?: StatCard[];
+}
+
+const {
+  title = 'Built for best-in-class founders',
+  subheading = 'Let CapitalxAI lead the process. We handle your investor outreach campaigns.\nYou focus on business growth.',
+  cards = []
+} = Astro.props;
+
+const defaultCards: StatCard[] = [
+  {
+    metric: '50%',
+    title: 'Faster deal closure',
+    description: 'Target aligned investors with messages that resonate, slashing deal closure time in half using AI.'
+  },
+  {
+    metric: '3x',
+    title: 'Higher investor response',
+    description: 'Say goodbye to generic outreach and watch your response rates soar by 3x with AI hyper-personalization.'
+  },
+  {
+    metric: '2x',
+    title: 'More meeting conversion',
+    description: 'Shift from conventional methods and double your conversion from replies to scheduled investor meetings.'
+  }
+];
+
+const items = cards?.length > 0 ? cards : defaultCards;
+const subheadingHtml = subheading.replaceAll('\n', '<br />');
+---
+
+<section class="founder-stats" aria-labelledby="founder-stats-title">
+  <div class="container">
+    <h2 id="founder-stats-title" class="founder-stats-title">{title}</h2>
+    {subheading && <p class="founder-stats-subheading" set:html={subheadingHtml} />}
+    
+    <div class="founder-stats-grid">
+      {items.map((card) => (
+        <div class="founder-stat-card">
+          <div class="stat-metric">{card.metric}</div>
+          <h3 class="stat-title">{card.title}</h3>
+          <p class="stat-description">{card.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .founder-stats {
+    padding-block: 5rem 6rem;
+    background: #0b1020; /* Match homepage color theme */
+  }
+
+  .founder-stats-title {
+    margin: 0 0 1.5rem;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: -0.02em;
+    color: rgba(255, 255, 255, 1);
+  }
+
+  .founder-stats-subheading {
+    margin: 0 auto 3.5rem;
+    max-width: 56rem;
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.7;
+  }
+
+  .founder-stats-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .founder-stats-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .founder-stats-grid {
+      gap: 2.5rem;
+    }
+  }
+
+  .founder-stat-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+  }
+
+  .stat-metric {
+    font-size: clamp(3rem, 6vw, 4.5rem);
+    font-weight: 700;
+    color: rgba(255, 255, 255, 1);
+    margin: 0 0 1.5rem;
+    line-height: 1;
+  }
+
+  .stat-title {
+    font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+    font-weight: 700;
+    color: rgba(255, 255, 255, 1);
+    margin: 0 0 1rem;
+    line-height: 1.3;
+  }
+
+  .stat-description {
+    font-size: clamp(0.9375rem, 1.5vw, 1rem);
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.75);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  @media (min-width: 768px) {
+    .founder-stat-card {
+      padding: 2.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .founder-stat-card {
+      padding: 3rem;
+    }
+  }
+</style>

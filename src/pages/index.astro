@@ -4,6 +4,11 @@ import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
 import TrustSection from '../components/TrustSection.astro';
 import Features from '../components/Features.astro';
+import MessagingCards from '../components/MessagingCards.astro';
+import EngagingConversations from '../components/EngagingConversations.astro';
+import FounderStats from '../components/FounderStats.astro';
+import FloatingImages from '../components/FloatingImages.astro';
+import RaiseCapitalCTA from '../components/RaiseCapitalCTA.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
 ---
@@ -16,15 +21,24 @@ import '../styles/global.css';
   <Header />
   <main id="main-content">
     <Hero
-      headline="The Best Investor Search Platform"
-      subheading="Powered by agents with fast, high-quality web research capabilities"
-      primaryCta={{ label: 'Get Started', href: '/#get-started' }}
-      secondaryCta={{ label: 'Request Demo', href: '/contact#demo' }}
+      headlineTop="Raise venture capital"
+      headlineBottom="with advanced AI"
+      subheading={'Connect with 3000+ investors using AI-powered investor discovery,\npersonalized pitches, and intelligent outreach.'}
+      primaryCta={{ label: 'Start fundraising', href: '/#start' }}
+      secondaryCta={{ label: 'Apply for access', href: '/#apply' }}
     />
     <TrustSection title="Trusted by leading teams" />
     <section id="features" aria-labelledby="features-title">
-      <Features title="Why CapitalxAI" />
+      <Features 
+        title="Find mission-aligned investors"
+        subheading="Shortlist 3000+ ideal investors using GPT-4 analysis of 1M+ websites, from VCs, angels, PE firms, accelerators to family offices."
+      />
     </section>
+    <MessagingCards />
+    <EngagingConversations />
+    <FounderStats />
+    <FloatingImages />
+    <RaiseCapitalCTA />
   </main>
   <Footer />
 </BaseLayout>

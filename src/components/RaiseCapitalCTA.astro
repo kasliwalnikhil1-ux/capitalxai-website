@@ -1,0 +1,160 @@
+---
+interface Props {
+  headline?: string;
+  subline?: string;
+  primaryCta?: { label: string; href: string };
+  secondaryCta?: { label: string; href: string };
+}
+
+const {
+  headline = "Planning to raise capital?",
+  subline = "We can help you succeed.",
+  primaryCta = { label: "Start fundraising", href: "/#start" },
+  secondaryCta = { label: "Apply for access", href: "/#apply" }
+} = Astro.props;
+---
+
+<section class="raise-capital-cta" aria-labelledby="raise-capital-heading">
+  <div class="cta-card">
+    <div class="cta-card-bg" aria-hidden="true" />
+    <div class="cta-card-inner">
+      <h2 id="raise-capital-heading" class="cta-headline">{headline}</h2>
+      <p class="cta-subline">{subline}</p>
+      <div class="cta-buttons">
+        <a href={primaryCta.href} class="btn btn-primary">
+          <span>{primaryCta.label}</span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+        <a href={secondaryCta.href} class="btn btn-secondary">
+          <span>{secondaryCta.label}</span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .raise-capital-cta {
+    padding-block: 5rem 6rem;
+    background: #0b1020; /* Match homepage theme */
+  }
+
+  .cta-card {
+    position: relative;
+    max-width: 56rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  .cta-card-inner {
+    position: relative;
+    z-index: 1;
+    background: rgba(22, 30, 52, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1rem;
+    padding: 4rem 2.5rem;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .cta-card-bg {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 120%;
+    height: 60%;
+    max-height: 280px;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 220, 120, 0.08) 0%,
+      rgba(255, 160, 100, 0.1) 15%,
+      rgba(255, 120, 180, 0.1) 30%,
+      rgba(180, 120, 255, 0.12) 50%,
+      rgba(100, 160, 255, 0.1) 70%,
+      rgba(120, 255, 200, 0.08) 100%
+    );
+    filter: blur(48px);
+    opacity: 0.9;
+    pointer-events: none;
+    border-radius: 50%;
+  }
+
+  .cta-headline {
+    margin: 0 0 0.5rem;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    color: rgba(255, 255, 255, 0.98);
+  }
+
+  .cta-subline {
+    margin: 0 0 2.5rem;
+    font-size: clamp(1.125rem, 2vw, 1.375rem);
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.4;
+  }
+
+  .cta-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 9999px;
+    transition: opacity 0.2s ease, transform 0.15s ease;
+  }
+
+  .btn:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+  }
+
+  .btn-primary {
+    background: rgba(117, 126, 146, 0.9);
+    color: rgba(255, 255, 255, 0.96);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+  }
+
+  .btn-secondary {
+    background: rgba(0, 0, 0, 0.08);
+    color: rgba(255, 255, 255, 0.92);
+    border: 1.5px solid rgba(255, 255, 255, 0.45);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.18);
+  }
+
+  .btn-secondary:hover {
+    border-color: rgba(255, 255, 255, 0.55);
+    background: rgba(0, 0, 0, 0.12);
+  }
+
+  .arrow {
+    font-size: 1.1em;
+  }
+
+  @media (max-width: 768px) {
+    .cta-card-inner {
+      padding: 3rem 1.5rem;
+    }
+    .cta-buttons {
+      flex-direction: column;
+    }
+    .btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>

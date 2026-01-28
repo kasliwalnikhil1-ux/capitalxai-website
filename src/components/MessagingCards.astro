@@ -1,0 +1,260 @@
+---
+interface Card {
+  icon: string;
+  title: string;
+  description: string;
+  gif?: string;
+}
+
+interface Props {
+  title?: string;
+  subheading?: string;
+  cards?: Card[];
+}
+
+const { 
+  title = 'Ultra-personalized messaging',
+  subheading = 'Using data enrichment and GPT-4, CapitalxAI crafts personalized and dynamic messages for each investor.',
+  cards = []
+} = Astro.props;
+
+const defaultCards: Card[] = [
+  {
+    icon: 'eye',
+    title: 'Align to investor interests',
+    description: 'Increase booked meetings by aligning your pitch with investors\' focus areas, portfolio, and news.',
+    gif: '/card1.gif'
+  },
+  {
+    icon: 'network',
+    title: 'Craft compelling email hooks',
+    description: 'Increase reply rates with messages tailored from investors\' recent online activity, awards, and updates.',
+    gif: '/card2.gif'
+  },
+  {
+    icon: 'lightbulb',
+    title: 'Find shared experiences',
+    description: 'Foster reciprocity with investors by connecting on commonalities like education or past workplaces.',
+    gif: '/card3.gif'
+  },
+  {
+    icon: 'folder',
+    title: 'Contextual multi-step emails',
+    description: 'Increase response rates with ultra-personalized multi-step email sequences.',
+    gif: '/card4.gif'
+  },
+  {
+    icon: 'document',
+    title: 'Pull in powerful investor data',
+    description: 'Strengthen relationships by collecting underutilized investor data, such as past investments and fund details.',
+    gif: '/card5.gif'
+  },
+];
+
+const items = cards?.length > 0 ? cards : defaultCards;
+---
+
+<section class="messaging-cards" aria-labelledby="messaging-title">
+  <div class="container">
+    <h2 id="messaging-title" class="messaging-title">{title}</h2>
+    {subheading && <p class="messaging-subheading">{subheading}</p>}
+    
+    <div class="cards-grid">
+      {items.map((card, index) => (
+        <div class="messaging-card">
+          <div class="card-header">
+            <div class="card-icon" aria-hidden="true">
+              {card.icon === 'eye' && (
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/>
+                  <path d="M12 1C8 1 5 4 3 6C1 8 1 16 3 18C5 20 8 23 12 23C16 23 19 20 21 18C23 16 23 8 21 6C19 4 16 1 12 1Z" stroke="currentColor" stroke-width="1.5"/>
+                </svg>
+              )}
+              {card.icon === 'network' && (
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="2" stroke="currentColor" stroke-width="1.5"/>
+                  <circle cx="6" cy="6" r="2" stroke="currentColor" stroke-width="1.5"/>
+                  <circle cx="18" cy="6" r="2" stroke="currentColor" stroke-width="1.5"/>
+                  <circle cx="6" cy="18" r="2" stroke="currentColor" stroke-width="1.5"/>
+                  <circle cx="18" cy="18" r="2" stroke="currentColor" stroke-width="1.5"/>
+                  <path d="M12 10L6 6M12 10L18 6M12 14L6 18M12 14L18 18M10 12L6 6M10 12L6 18M14 12L18 6M14 12L18 18" stroke="currentColor" stroke-width="1.5"/>
+                </svg>
+              )}
+              {card.icon === 'lightbulb' && (
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 2V4M12 20V22M4 12H2M22 12H20M19.07 19.07L17.66 17.66M19.07 4.93L17.66 6.34M4.93 19.07L6.34 17.66M4.93 4.93L6.34 6.34" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  <path d="M12 8C9.79 8 8 9.79 8 12C8 14.21 9.79 16 12 16C14.21 16 16 14.21 16 12C16 9.79 14.21 8 12 8Z" stroke="currentColor" stroke-width="1.5"/>
+                  <circle cx="12" cy="12" r="1" fill="currentColor"/>
+                </svg>
+              )}
+              {card.icon === 'folder' && (
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3 6C3 4.9 3.9 4 5 4H9L11 6H19C20.1 6 21 6.9 21 8V18C21 19.1 20.1 20 19 20H5C3.9 20 3 19.1 3 18V6Z" stroke="currentColor" stroke-width="1.5"/>
+                  <path d="M7 10H17M7 14H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              )}
+              {card.icon === 'document' && (
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M14 2H6C5.47 2 4.96 2.21 4.59 2.59C4.21 2.96 4 3.47 4 4V20C4 20.53 4.21 21.04 4.59 21.41C4.96 21.79 5.47 22 6 22H18C18.53 22 19.04 21.79 19.41 21.41C19.79 21.04 20 20.53 20 20V8L14 2Z" stroke="currentColor" stroke-width="1.5"/>
+                  <path d="M14 2V8H20M16 13H8M16 17H8M10 9H8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              )}
+            </div>
+            <h3 class="card-title">{card.title}</h3>
+          </div>
+          <p class="card-description">{card.description}</p>
+          {card.gif && (
+            <div class="card-gif-container">
+              <img 
+                src={card.gif} 
+                alt={`${card.title} demonstration`}
+                class="card-gif"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .messaging-cards {
+    padding-block: 5rem 6rem;
+    background: #0b1020; /* Match homepage color theme */
+  }
+
+  .messaging-title {
+    margin: 0 0 1.25rem;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: -0.02em;
+    color: rgba(255, 255, 255, 0.98);
+  }
+
+  .messaging-subheading {
+    margin: 0 auto 3.5rem;
+    max-width: 56rem;
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    text-align: center;
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.7;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  /* First 2 cards in top row */
+  .cards-grid > .messaging-card:nth-child(1),
+  .cards-grid > .messaging-card:nth-child(2) {
+    grid-column: span 1;
+  }
+
+  /* Last 3 cards in bottom row - use 3-column grid */
+  @media (min-width: 1024px) {
+    .cards-grid {
+      grid-template-columns: repeat(6, 1fr);
+    }
+    
+    /* Top row: 2 cards, each 50% width */
+    .cards-grid > .messaging-card:nth-child(1),
+    .cards-grid > .messaging-card:nth-child(2) {
+      grid-column: span 3;
+    }
+    
+    /* Bottom row: 3 cards, each ~33% width */
+    .cards-grid > .messaging-card:nth-child(3),
+    .cards-grid > .messaging-card:nth-child(4),
+    .cards-grid > .messaging-card:nth-child(5) {
+      grid-column: span 2;
+    }
+  }
+
+  .messaging-card {
+    background: rgba(22, 30, 52, 0.8); /* #161E34 - slightly lighter dark blue-grey */
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 2.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .card-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #60A5FA; /* Light blue/cyan color for icons */
+    flex-shrink: 0;
+  }
+
+  .card-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .card-title {
+    margin: 0;
+    font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.98);
+    line-height: 1.3;
+  }
+
+  .card-description {
+    margin: 0;
+    font-size: clamp(0.9375rem, 1.8vw, 1.0625rem);
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.6;
+  }
+
+  .card-gif-container {
+    margin-top: 0.5rem;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .card-gif {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+  }
+
+  /* Responsive: Stack bottom 3 cards on smaller screens */
+  @media (max-width: 1023px) {
+    .cards-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .messaging-cards {
+      padding-block: 4rem 5rem;
+    }
+
+    .messaging-subheading {
+      margin-bottom: 2.5rem;
+    }
+
+    .messaging-card {
+      padding: 2rem 1.5rem;
+    }
+  }
+</style>

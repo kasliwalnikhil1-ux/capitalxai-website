@@ -1,0 +1,195 @@
+---
+interface Props {
+  title?: string;
+  subheading?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  row1?: string[];
+  row2?: string[];
+}
+
+const {
+  title = "Our AI has already booked meetings with...",
+  subheading = "Every nine seconds, a new investor email goes through CapitalxAI's workflow—for marketplaces to SaaS startups.",
+  ctaLabel = "Start fundraising",
+  ctaHref = "/#start",
+  row1 = ['/1.png', '/2.png', '/3.png', '/4.png', '/5.png'],
+  row2 = ['/6.png', '/7.png', '/8.png', '/9.png']
+} = Astro.props;
+---
+
+<section class="floating-images" aria-labelledby="booked-meetings-title">
+  <div class="container floating-header">
+    <div class="header-text">
+      <h2 id="booked-meetings-title" class="section-title">{title}</h2>
+      <p class="section-subheading">{subheading}</p>
+    </div>
+    <a href={ctaHref} class="cta-button">
+      <span>{ctaLabel}</span>
+      <span class="cta-arrow" aria-hidden="true">→</span>
+    </a>
+  </div>
+  <div class="floating-images-inner">
+    <!-- Row 1: scroll left to right -->
+    <div class="marquee-row marquee-row-1" aria-hidden="true">
+      <div class="marquee-track">
+        {[...row1, ...row1].map((src) => (
+          <div class="marquee-item">
+            <img src={src} alt="" loading="lazy" decoding="async" />
+          </div>
+        ))}
+      </div>
+    </div>
+    <!-- Row 2: scroll left to right -->
+    <div class="marquee-row marquee-row-2" aria-hidden="true">
+      <div class="marquee-track">
+        {[...row2, ...row2].map((src) => (
+          <div class="marquee-item">
+            <img src={src} alt="" loading="lazy" decoding="async" />
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .floating-images {
+    padding-block: 4rem 5rem;
+    background: #0b1020;
+    overflow: hidden;
+  }
+
+  .floating-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .header-text {
+    flex: 1 1  min(100%, 42rem);
+  }
+
+  .section-title {
+    margin: 0 0 0.75rem;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    color: rgba(255, 255, 255, 1);
+  }
+
+  .section-subheading {
+    margin: 0;
+    font-size: clamp(0.9375rem, 1.5vw, 1.125rem);
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
+    max-width: 52ch;
+  }
+
+  .cta-button {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: #1e3a5f;
+    color: rgba(255, 255, 255, 1);
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 9999px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+
+  .cta-button:hover {
+    background: #254a75;
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .cta-arrow {
+    font-size: 1.1em;
+  }
+
+  .floating-images-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .marquee-row {
+    overflow: hidden;
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 8%,
+      black 92%,
+      transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 8%,
+      black 92%,
+      transparent 100%
+    );
+  }
+
+  .marquee-track {
+    display: flex;
+    gap: 2rem;
+    width: max-content;
+    animation: scroll-left-to-right 40s linear infinite;
+  }
+
+  .marquee-row-2 .marquee-track {
+    animation-duration: 45s;
+  }
+
+  .marquee-item {
+    flex-shrink: 0;
+    width: 320px;
+    height: 200px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.06);
+  }
+
+  .marquee-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  @keyframes scroll-left-to-right {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .floating-header {
+      flex-direction: column;
+      margin-bottom: 2.5rem;
+    }
+    .cta-button {
+      align-self: flex-start;
+    }
+    .marquee-item {
+      width: 280px;
+      height: 175px;
+    }
+    .marquee-track {
+      gap: 1.5rem;
+    }
+  }
+</style>
