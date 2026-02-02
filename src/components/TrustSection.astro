@@ -6,49 +6,93 @@ interface Props {
 
 const { title, logos = [] } = Astro.props;
 
-// Default company logo images from /public (SVG format)
-const placeholderLogos = [
+// All company logos: company1–5 (SVG) + Untitled-1–19 (PNG), same size for all
+const defaultLogos = [
   { name: 'Company 1', src: '/company1.svg' },
   { name: 'Company 2', src: '/company2.svg' },
   { name: 'Company 3', src: '/company3.svg' },
   { name: 'Company 4', src: '/company4.svg' },
   { name: 'Company 5', src: '/company5.svg' },
+  { name: 'Company 6', src: '/Untitled-1.png' },
+  { name: 'Company 7', src: '/Untitled-2.png' },
+  { name: 'Company 8', src: '/Untitled-3.png' },
+  { name: 'Company 9', src: '/Untitled-4.png' },
+  { name: 'Company 10', src: '/Untitled-5.png' },
+  { name: 'Company 11', src: '/Untitled-6.png' },
+  { name: 'Company 12', src: '/Untitled-7.png' },
+  { name: 'Company 13', src: '/Untitled-8.png' },
+  { name: 'Company 14', src: '/Untitled-9.png' },
+  { name: 'Company 15', src: '/Untitled-10.png' },
+  { name: 'Company 16', src: '/Untitled-11.png' },
+  { name: 'Company 17', src: '/Untitled-12.png' },
+  { name: 'Company 18', src: '/Untitled-13.png' },
+  { name: 'Company 19', src: '/Untitled-14.png' },
+  { name: 'Company 20', src: '/Untitled-15.png' },
+  { name: 'Company 21', src: '/Untitled-16.png' },
+  { name: 'Company 22', src: '/Untitled-17.png' },
+  { name: 'Company 23', src: '/Untitled-18.png' },
+  { name: 'Company 24', src: '/Untitled-19.png' },
 ];
 
-const items = logos?.length > 0 ? logos : placeholderLogos;
+const items = logos?.length > 0 ? logos : defaultLogos;
+const logoSize = 120; // consistent width/height for all logos
 ---
 
 <section class="trust" aria-labelledby="trust-title">
   <div class="container">
     <h2 id="trust-title" class="trust-title">{title}</h2>
-    <ul class="trust-grid" role="list">
-      {items.map((logo) => (
-        <li class="trust-item">
-          <div class="trust-logo" aria-label={logo.name}>
-            {logo.src ? (
-              <img
-                src={logo.src}
-                alt={logo.name}
-                width={logo.width ?? 160}
-                height={logo.height ?? 40}
-                loading="lazy"
-                decoding="async"
-              />
-            ) : (
-              <span>{logo.name}</span>
-            )}
-          </div>
-        </li>
-      ))}
-    </ul>
+    <div class="trust-scroll-wrapper" tabindex="0" aria-label="Scrolling list of trusted companies">
+      <div class="trust-track">
+        <ul class="trust-list" role="list">
+          {items.map((logo) => (
+            <li class="trust-item">
+              <div class="trust-logo" aria-label={logo.name}>
+                {logo.src ? (
+                  <img
+                    src={logo.src}
+                    alt={logo.name}
+                    width={logoSize}
+                    height={logoSize}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : (
+                  <span>{logo.name}</span>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+        <ul class="trust-list trust-list-duplicate" role="list" aria-hidden="true">
+          {items.map((logo) => (
+            <li class="trust-item">
+              <div class="trust-logo" aria-label={logo.name}>
+                {logo.src ? (
+                  <img
+                    src={logo.src}
+                    alt=""
+                    width={logoSize}
+                    height={logoSize}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : (
+                  <span>{logo.name}</span>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
   </div>
 </section>
 
 <style>
   .trust {
     padding-block: 4rem 5rem;
-    /* Match the hero/home background tone */
     background: #0b1020;
+    overflow: hidden;
   }
 
   .trust-title {
@@ -61,42 +105,71 @@ const items = logos?.length > 0 ? logos : placeholderLogos;
     letter-spacing: 0.1em;
   }
 
-  .trust-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem 1.5rem;
+  .trust-scroll-wrapper {
+    overflow: hidden;
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      black 5%,
+      black 95%,
+      transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      black 5%,
+      black 95%,
+      transparent 100%
+    );
+  }
+
+  .trust-track {
+    display: flex;
+    width: max-content;
+    animation: trust-scroll 40s linear infinite;
+  }
+
+  .trust-track:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes trust-scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .trust-list {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
     margin: 0;
-    padding: 0;
+    padding: 0 1rem;
     list-style: none;
+    flex-shrink: 0;
   }
 
-  @media (min-width: 640px) {
-    .trust-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .trust-grid {
-      grid-template-columns: repeat(6, 1fr);
-      gap: 2rem;
-    }
+  .trust-list-duplicate {
+    padding-left: 0;
   }
 
   .trust-item {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
   }
 
   .trust-logo {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: auto;
-    max-width: 8rem;
-    height: 3rem;
-    transition: opacity var(--transition), transform var(--transition);
+    width: 9rem;
+    height: 3.75rem;
+    transition: opacity var(--transition, 0.2s), transform var(--transition, 0.2s);
   }
 
   .trust-logo:hover {
@@ -105,10 +178,9 @@ const items = logos?.length > 0 ? logos : placeholderLogos;
   }
 
   .trust-logo img {
-    max-width: 100%;
-    max-height: 2.25rem;
     width: auto;
-    height: auto;
+    height: 3.25rem;
+    max-width: 8.5rem;
     object-fit: contain;
     display: block;
   }
