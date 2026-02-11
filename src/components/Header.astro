@@ -20,9 +20,8 @@ const { siteName = 'CapitalxAI', logoHref = '/' } = Astro.props;
     </a>
 
     <nav class="nav" aria-label="Main">
-      <a href="/#about" class="nav-link">About</a>
+      <a href="https://docs.capitalxai.com/" class="nav-link" target="_blank" rel="noopener noreferrer">Product Tour</a>
       <a href="/pricing" class="nav-link">Pricing</a>
-      <a href="/#playbooks" class="nav-link">Playbooks</a>
     </nav>
 
     <div class="actions" aria-label="Header actions">
@@ -53,9 +52,8 @@ const { siteName = 'CapitalxAI', logoHref = '/' } = Astro.props;
     hidden
   >
     <nav class="mobile-nav" aria-label="Main">
-      <a href="/#about" class="mobile-nav-link">About</a>
+      <a href="https://docs.capitalxai.com/" class="mobile-nav-link" target="_blank" rel="noopener noreferrer">Product Tour</a>
       <a href="/pricing" class="mobile-nav-link">Pricing</a>
-      <a href="/#playbooks" class="mobile-nav-link">Playbooks</a>
     </nav>
     <div class="mobile-actions">
       <a class="btn btn-outline mobile-btn" href="https://app.capitalxai.com/signup" target="_blank" rel="noopener noreferrer">Login</a>
@@ -350,7 +348,7 @@ const { siteName = 'CapitalxAI', logoHref = '/' } = Astro.props;
 
   @media (max-width: 860px) {
     .header {
-      position: relative;
+      position: sticky;
     }
 
     .brand-mark {
