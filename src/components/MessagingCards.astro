@@ -21,31 +21,31 @@ const {
 const defaultCards: Card[] = [
   {
     icon: 'eye',
-    title: 'Align to investor interests',
+    title: 'Align to<br>investor interests',
     description: 'Increase booked meetings by aligning your pitch with investors\' focus areas, portfolio, and news.',
     gif: '/card1.gif'
   },
   {
     icon: 'network',
-    title: 'Craft compelling email hooks',
+    title: 'Craft compelling<br>email hooks',
     description: 'Increase reply rates with messages tailored from investors\' recent online activity, awards, and updates.',
     gif: '/card2.gif'
   },
   {
     icon: 'lightbulb',
-    title: 'Find shared experiences',
+    title: 'Find shared<br>experiences',
     description: 'Foster reciprocity with investors by connecting on commonalities like education or past workplaces.',
     gif: '/card1.gif'
   },
   {
     icon: 'folder',
-    title: 'Multi-step messages',
+    title: 'Multi-step<br>messages',
     description: 'Increase response rates with ultra-personalized multi-step email sequences.',
     gif: '/card2.gif'
   },
   {
     icon: 'document',
-    title: 'Pull in powerful investor data',
+    title: 'Pull in powerful<br>investor data',
     description: 'Strengthen relationships by collecting underutilized investor data, such as past investments and fund details.',
     gif: '/card1.gif'
   },
@@ -100,7 +100,7 @@ const items = cards?.length > 0 ? cards : defaultCards;
                 </svg>
               )}
             </div>
-            <h3 class="card-title">{card.title}</h3>
+            <h3 class="card-title" set:html={card.title} />
           </div>
           <p class="card-description">{card.description}</p>
           {card.gif && (
@@ -181,10 +181,12 @@ const items = cards?.length > 0 ? cards : defaultCards;
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 12px;
     padding: 2.5rem;
+    padding-bottom: 0;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    overflow: hidden;
   }
 
   .card-header {
@@ -224,11 +226,12 @@ const items = cards?.length > 0 ? cards : defaultCards;
   }
 
   .card-gif-container {
-    margin-top: 0.5rem;
+    margin-top: auto; /* push GIF to bottom of card */
     width: 100%;
-    border-radius: 8px;
+    border-radius: 8px 8px 0 0;
     overflow: hidden;
     position: relative;
+    margin-bottom: -60px; /* extend below card boundary, cropped by card overflow:hidden */
   }
 
   .card-gif-container::after {
@@ -254,7 +257,14 @@ const items = cards?.length > 0 ? cards : defaultCards;
     width: 100%;
     height: auto;
     display: block;
-    border-radius: 8px;
+    border-radius: 8px 8px 0 0;
+  }
+
+  /* Bottom 3 cards: less cropping */
+  .cards-grid > .messaging-card:nth-child(3) .card-gif-container,
+  .cards-grid > .messaging-card:nth-child(4) .card-gif-container,
+  .cards-grid > .messaging-card:nth-child(5) .card-gif-container {
+    margin-bottom: -25px;
   }
 
   /* Responsive: Stack bottom 3 cards on smaller screens */
@@ -275,6 +285,7 @@ const items = cards?.length > 0 ? cards : defaultCards;
 
     .messaging-card {
       padding: 2rem 1.5rem;
+      padding-bottom: 0;
     }
   }
 </style>

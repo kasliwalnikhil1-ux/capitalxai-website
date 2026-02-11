@@ -269,6 +269,25 @@ const gif2Src = gif2 || '/Persistent outreach strategy.gif';
     z-index: 0;
   }
 
+  /* Top card: GIF pinned to bottom with bottom cropping */
+  .feature-card-top {
+    overflow: hidden;
+  }
+
+  .feature-card-top .feature-card-left {
+    align-self: center; /* Keep text vertically centered in card */
+  }
+
+  .feature-card-top .feature-card-right {
+    align-self: flex-end; /* Only the GIF column goes to bottom */
+    border-radius: 8px 8px 0 0;
+    margin-bottom: calc(-2.5rem - 60px); /* cancel card bottom padding + extra 60px crop */
+  }
+
+  .feature-card-top .feature-gif {
+    border-radius: 8px 8px 0 0;
+  }
+
   .features-bottom-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -282,7 +301,17 @@ const gif2Src = gif2 || '/Persistent outreach strategy.gif';
     }
 
     .feature-card-right {
-      order: -1; /* Show GIF first on mobile */
+      order: 1; /* Keep GIF below text on mobile */
+    }
+
+    .feature-card-top .feature-card-left {
+      align-self: auto; /* Reset to normal flow */
+    }
+
+    .feature-card-top .feature-card-right {
+      align-self: auto;
+      border-radius: 8px 8px 0 0;
+      margin-bottom: -60px; /* Keep bottom crop */
     }
 
     .features-bottom-row {

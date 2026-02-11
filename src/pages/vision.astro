@@ -1,0 +1,787 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+---
+
+<BaseLayout
+  title="Our Vision – CapitalxAI"
+  description="CapitalxAI envisions a world where every founder can access the right investors, powered by AI-driven intelligence, verified data, and personalized outreach — all in one platform."
+  canonical="/vision"
+>
+  <Header />
+  <main id="main-content" class="vision-page">
+
+    <!-- ════════ HERO ════════ -->
+    <section class="vision-hero" aria-labelledby="vision-heading">
+      <div class="hero-glow hero-glow--left" aria-hidden="true"></div>
+      <div class="hero-glow hero-glow--right" aria-hidden="true"></div>
+      <div class="container hero-inner">
+        <span class="vision-label">Our Vision</span>
+        <h1 id="vision-heading" class="hero-headline">
+          <span class="headline-white">Democratizing access to</span>
+          <span class="headline-gradient">capital for every founder</span>
+        </h1>
+        <p class="hero-sub">
+          We believe fundraising shouldn't be a game of who you know. CapitalxAI exists to give every
+          founder — regardless of background or network — a fair shot at connecting with the
+          investors who are right for their mission.
+        </p>
+        <div class="hero-divider" aria-hidden="true">
+          <span class="divider-dot"></span>
+          <span class="divider-line"></span>
+          <span class="divider-dot"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════ PROBLEM ════════ -->
+    <section class="section-problem" aria-labelledby="problem-title">
+      <div class="container">
+        <div class="problem-grid">
+          <div class="problem-text">
+            <h2 id="problem-title" class="section-title">
+              <span class="title-white">Fundraising is</span>
+              <span class="title-accent">fundamentally broken</span>
+            </h2>
+            <p class="section-desc">
+              Founders spend months manually researching investors, cold-emailing through outdated databases, and navigating a system
+              designed for those with existing connections. The result? Missed opportunities, wasted time, and brilliant
+              ideas that never get funded.
+            </p>
+            <p class="section-desc">
+              We set out to change that — not by patching the old system, but by building an entirely new one from the ground up.
+            </p>
+          </div>
+          <div class="problem-stats">
+            <div class="stat-card">
+              <span class="stat-number">72%</span>
+              <span class="stat-label">of founders say fundraising is the hardest part of building a company</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-number">6-9 mo</span>
+              <span class="stat-label">average time to close a funding round using traditional methods</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-number">200+</span>
+              <span class="stat-label">hours typically spent on investor research alone per round</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════ APPROACH / PILLARS ════════ -->
+    <section class="section-pillars" aria-labelledby="pillars-title">
+      <div class="container">
+        <h2 id="pillars-title" class="section-title section-title--center">
+          <span class="title-white">Our approach to</span>
+          <span class="title-accent">transforming fundraising</span>
+        </h2>
+        <p class="section-desc section-desc--center">
+          CapitalxAI combines deep AI research, verified data, and intelligent automation into a single
+          integrated platform — replacing months of manual work with seconds of actionable insight.
+        </p>
+
+        <div class="pillars-grid">
+          <!-- Pillar 1 -->
+          <div class="pillar-card">
+            <div class="pillar-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="m21 21-4.3-4.3"/>
+                <path d="M11 8v6"/>
+                <path d="M8 11h6"/>
+              </svg>
+            </div>
+            <h3 class="pillar-title">AI-Powered Investor Discovery</h3>
+            <p class="pillar-desc">
+              Surface the right investors from a universe of 3,000+ VCs, angels, PE firms, accelerators,
+              and family offices using deep AI research across 1M+ websites — not stale databases.
+            </p>
+          </div>
+
+          <!-- Pillar 2 -->
+          <div class="pillar-card">
+            <div class="pillar-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 20h9"/>
+                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+              </svg>
+            </div>
+            <h3 class="pillar-title">Intelligent Analysis &amp; Insights</h3>
+            <p class="pillar-desc">
+              Go beyond surface-level data. Our AI analyzes investor thesis alignment, portfolio fit,
+              check-size relevance, and stage preference to score and rank every match.
+            </p>
+          </div>
+
+          <!-- Pillar 3 -->
+          <div class="pillar-card">
+            <div class="pillar-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </div>
+            <h3 class="pillar-title">Verified Contact Access</h3>
+            <p class="pillar-desc">
+              Skip the guesswork. Access verified, up-to-date contact information for decision makers
+              so your outreach actually lands in the right inbox, every time.
+            </p>
+          </div>
+
+          <!-- Pillar 4 -->
+          <div class="pillar-card">
+            <div class="pillar-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                <path d="M8 10h.01"/>
+                <path d="M12 10h.01"/>
+                <path d="M16 10h.01"/>
+              </svg>
+            </div>
+            <h3 class="pillar-title">Personalized Outreach at Scale</h3>
+            <p class="pillar-desc">
+              Craft deeply personalized messages that reference specific portfolio companies, recent
+              investments, and shared interests — generated in seconds, not hours.
+            </p>
+          </div>
+
+          <!-- Pillar 5 -->
+          <div class="pillar-card">
+            <div class="pillar-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <path d="M3 9h18"/>
+                <path d="M9 21V9"/>
+              </svg>
+            </div>
+            <h3 class="pillar-title">One Unified Platform</h3>
+            <p class="pillar-desc">
+              No more juggling spreadsheets, CRMs, and email tools. Research, analyze, contact, and
+              follow up — all within a single integrated workflow built for founders.
+            </p>
+          </div>
+
+          <!-- Pillar 6 -->
+          <div class="pillar-card">
+            <div class="pillar-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+            <h3 class="pillar-title">Seconds, Not Months</h3>
+            <p class="pillar-desc">
+              What once took weeks of grinding work now takes seconds. Our AI agents work tirelessly in
+              the background so you can focus on what matters — building your company.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════ BELIEFS / VALUES ════════ -->
+    <section class="section-beliefs" aria-labelledby="beliefs-title">
+      <div class="container">
+        <h2 id="beliefs-title" class="section-title section-title--center">
+          <span class="title-white">What we believe</span>
+        </h2>
+        <p class="section-desc section-desc--center">
+          These convictions guide every product decision, every line of code, and every interaction we have.
+        </p>
+
+        <div class="beliefs-grid">
+          <div class="belief-item">
+            <div class="belief-number">01</div>
+            <div class="belief-content">
+              <h3 class="belief-title">Great ideas deserve capital</h3>
+              <p class="belief-desc">
+                The best companies aren't always started by people with the best networks. We're building the infrastructure that lets talent and vision — not connections — determine who gets funded.
+              </p>
+            </div>
+          </div>
+
+          <div class="belief-item">
+            <div class="belief-number">02</div>
+            <div class="belief-content">
+              <h3 class="belief-title">AI should amplify, not replace</h3>
+              <p class="belief-desc">
+                Fundraising is fundamentally human. Our AI handles the research, data crunching, and repetitive outreach so founders can focus on what machines can't replicate — building genuine relationships.
+              </p>
+            </div>
+          </div>
+
+          <div class="belief-item">
+            <div class="belief-number">03</div>
+            <div class="belief-content">
+              <h3 class="belief-title">Speed is a competitive advantage</h3>
+              <p class="belief-desc">
+                In a market where timing is everything, the ability to identify, analyze, and reach the right investors in seconds instead of months can be the difference between closing a round and running out of runway.
+              </p>
+            </div>
+          </div>
+
+          <div class="belief-item">
+            <div class="belief-number">04</div>
+            <div class="belief-content">
+              <h3 class="belief-title">Data quality is non-negotiable</h3>
+              <p class="belief-desc">
+                Stale databases and scraped contact lists waste everyone's time. We invest relentlessly in verified, real-time data because founders deserve information they can trust and act on immediately.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════ FUTURE SECTION ════════ -->
+    <section class="section-future" aria-labelledby="future-title">
+      <div class="future-glow" aria-hidden="true"></div>
+      <div class="container">
+        <div class="future-content">
+          <h2 id="future-title" class="section-title section-title--center">
+            <span class="title-white">The future we're building</span>
+          </h2>
+          <p class="future-statement">
+            We envision a world where the fundraising process is transparent, intelligent, and accessible to all. Where
+            a first-time founder in Bangalore has the same access to investors as a serial entrepreneur in Silicon Valley.
+            Where AI handles the noise so humans can focus on what really matters — building the future.
+          </p>
+          <p class="future-statement">
+            CapitalxAI isn't just a tool. It's a movement toward a more equitable startup ecosystem — one where the
+            quality of your idea, not the size of your rolodex, determines your success.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════ CTA ════════ -->
+    <section class="section-cta" aria-labelledby="cta-title">
+      <div class="container cta-inner">
+        <h2 id="cta-title" class="cta-headline">
+          <span class="headline-white">Ready to reimagine</span>
+          <span class="headline-gradient">how you fundraise?</span>
+        </h2>
+        <p class="cta-desc">
+          Join the founders who are already using AI to find mission-aligned investors and secure more meetings — in seconds.
+        </p>
+        <div class="cta-actions">
+          <a href="https://calendly.com/founders-capitalxai/20min" class="cta-btn cta-btn--solid" target="_blank" rel="noopener noreferrer">
+            Start Fundraising
+          </a>
+          <a href="https://app.capitalxai.com/signup" class="cta-btn cta-btn--outline" target="_blank" rel="noopener noreferrer">
+            Try CapitalxAI
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  /* ═══════════════════════════════════════════
+     PAGE BASE
+     ═══════════════════════════════════════════ */
+  .vision-page {
+    background: #0b1020;
+    min-height: 100vh;
+  }
+
+  /* ═══════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════ */
+  .vision-hero {
+    position: relative;
+    padding-block: 6rem 4rem;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .hero-glow {
+    position: absolute;
+    pointer-events: none;
+    filter: blur(90px);
+  }
+
+  .hero-glow--left {
+    left: -12%;
+    bottom: -30%;
+    width: 55%;
+    height: 80%;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(255, 200, 100, 0.2) 0%,
+      rgba(255, 140, 180, 0.15) 30%,
+      rgba(180, 100, 255, 0.15) 55%,
+      transparent 100%
+    );
+  }
+
+  .hero-glow--right {
+    right: -8%;
+    top: -20%;
+    width: 45%;
+    height: 70%;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(100, 180, 255, 0.12) 0%,
+      rgba(140, 100, 255, 0.1) 40%,
+      transparent 100%
+    );
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .vision-label {
+    display: inline-block;
+    padding: 0.35rem 1rem;
+    margin-bottom: 1.75rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(99, 102, 241, 0.95);
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    border-radius: 9999px;
+  }
+
+  .hero-headline {
+    margin: 0 0 1.75rem;
+    font-size: clamp(2.5rem, 6vw, 4.25rem);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+  }
+
+  .headline-white {
+    display: block;
+    color: rgba(255, 255, 255, 0.98);
+  }
+
+  .headline-gradient {
+    display: block;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.6) 0%,
+      rgba(255, 255, 255, 0.25) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    margin: 0 auto 2.5rem;
+    max-width: 44rem;
+    font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+    line-height: 1.75;
+    color: rgba(255, 255, 255, 0.65);
+  }
+
+  .hero-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+
+  .divider-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.5);
+  }
+
+  .divider-line {
+    width: 4rem;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(99, 102, 241, 0.4), rgba(99, 102, 241, 0.1));
+  }
+
+  /* ═══════════════════════════════════════════
+     SHARED SECTION STYLES
+     ═══════════════════════════════════════════ */
+  .section-title {
+    margin: 0 0 1.25rem;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  .section-title--center {
+    text-align: center;
+  }
+
+  .title-white {
+    display: block;
+    color: rgba(255, 255, 255, 0.98);
+  }
+
+  .title-accent {
+    display: block;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.5) 0%,
+      rgba(200, 200, 220, 0.38) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .section-desc {
+    margin: 0 0 1rem;
+    font-size: clamp(1rem, 1.4vw, 1.1rem);
+    line-height: 1.75;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .section-desc--center {
+    text-align: center;
+    max-width: 40rem;
+    margin-inline: auto;
+  }
+
+  /* ═══════════════════════════════════════════
+     PROBLEM SECTION
+     ═══════════════════════════════════════════ */
+  .section-problem {
+    padding-block: 5rem;
+  }
+
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  @media (min-width: 900px) {
+    .problem-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+  }
+
+  .problem-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .stat-card {
+    display: flex;
+    align-items: baseline;
+    gap: 1.25rem;
+    padding: 1.5rem 1.75rem;
+    background: rgba(22, 30, 52, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 0.875rem;
+    transition: border-color 0.3s ease, background 0.3s ease;
+  }
+
+  .stat-card:hover {
+    border-color: rgba(99, 102, 241, 0.25);
+    background: rgba(22, 30, 52, 0.8);
+  }
+
+  .stat-number {
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: rgba(255, 255, 255, 0.95);
+    white-space: nowrap;
+    flex-shrink: 0;
+    min-width: 5.5rem;
+    font-family: var(--font-mono);
+  }
+
+  .stat-label {
+    font-size: 0.925rem;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  /* ═══════════════════════════════════════════
+     PILLARS / APPROACH
+     ═══════════════════════════════════════════ */
+  .section-pillars {
+    padding-block: 5rem;
+  }
+
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-top: 3.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .pillars-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .pillars-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .pillar-card {
+    padding: 2rem 1.75rem;
+    background: rgba(22, 30, 52, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 1rem;
+    transition: border-color 0.3s ease, transform 0.3s ease, background 0.3s ease;
+  }
+
+  .pillar-card:hover {
+    border-color: rgba(99, 102, 241, 0.22);
+    transform: translateY(-3px);
+    background: rgba(22, 30, 52, 0.75);
+  }
+
+  .pillar-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    margin-bottom: 1.25rem;
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.18);
+    border-radius: 0.75rem;
+    color: rgba(99, 102, 241, 0.9);
+  }
+
+  .pillar-title {
+    margin: 0 0 0.75rem;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.94);
+    letter-spacing: -0.01em;
+  }
+
+  .pillar-desc {
+    margin: 0;
+    font-size: 0.94rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  /* ═══════════════════════════════════════════
+     BELIEFS / VALUES
+     ═══════════════════════════════════════════ */
+  .section-beliefs {
+    padding-block: 5rem;
+  }
+
+  .beliefs-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 3.5rem;
+    max-width: 48rem;
+    margin-inline: auto;
+  }
+
+  .belief-item {
+    display: flex;
+    gap: 2rem;
+    padding-block: 2.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .belief-item:first-child {
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .belief-number {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: rgba(99, 102, 241, 0.6);
+    padding-top: 0.15rem;
+    flex-shrink: 0;
+    min-width: 2rem;
+  }
+
+  .belief-title {
+    margin: 0 0 0.6rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.95);
+    letter-spacing: -0.01em;
+  }
+
+  .belief-desc {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  /* ═══════════════════════════════════════════
+     FUTURE SECTION
+     ═══════════════════════════════════════════ */
+  .section-future {
+    position: relative;
+    padding-block: 5rem;
+    overflow: hidden;
+  }
+
+  .future-glow {
+    position: absolute;
+    right: -15%;
+    top: -20%;
+    width: 50%;
+    height: 80%;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(99, 102, 241, 0.12) 0%,
+      rgba(180, 100, 255, 0.08) 40%,
+      transparent 100%
+    );
+    filter: blur(80px);
+    pointer-events: none;
+  }
+
+  .future-content {
+    position: relative;
+    z-index: 1;
+    max-width: 44rem;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .future-statement {
+    margin: 0 0 1.5rem;
+    font-size: clamp(1.1rem, 1.6vw, 1.3rem);
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .future-statement:last-child {
+    margin-bottom: 0;
+  }
+
+  /* ═══════════════════════════════════════════
+     CTA SECTION
+     ═══════════════════════════════════════════ */
+  .section-cta {
+    padding-block: 5rem 6rem;
+  }
+
+  .cta-inner {
+    text-align: center;
+    max-width: 40rem;
+  }
+
+  .cta-headline {
+    margin: 0 0 1.25rem;
+    font-size: clamp(2rem, 4.5vw, 3.25rem);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+  }
+
+  .cta-desc {
+    margin: 0 0 2.25rem;
+    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+  }
+
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    padding: 0 1.75rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+    border-radius: 9999px;
+    white-space: nowrap;
+    transition: transform 0.15s ease, opacity 0.2s ease;
+  }
+
+  .cta-btn:hover {
+    transform: translateY(-1px);
+    opacity: 0.95;
+  }
+
+  .cta-btn--solid {
+    background: rgba(117, 126, 146, 0.9);
+    color: rgba(255, 255, 255, 0.96);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+  }
+
+  .cta-btn--outline {
+    background: rgba(0, 0, 0, 0.08);
+    border: 1.5px solid rgba(255, 255, 255, 0.35);
+    color: rgba(255, 255, 255, 0.92);
+  }
+
+  /* ═══════════════════════════════════════════
+     RESPONSIVE
+     ═══════════════════════════════════════════ */
+  @media (max-width: 768px) {
+    .vision-hero {
+      padding-block: 4rem 3rem;
+    }
+
+    .hero-glow--left {
+      left: -30%;
+      width: 80%;
+    }
+
+    .hero-glow--right {
+      right: -20%;
+      width: 60%;
+    }
+
+    .section-problem,
+    .section-pillars,
+    .section-beliefs,
+    .section-future,
+    .section-cta {
+      padding-block: 3.5rem;
+    }
+
+    .belief-item {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .stat-card {
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: flex-start;
+    }
+
+    .stat-number {
+      min-width: auto;
+    }
+  }
+</style>

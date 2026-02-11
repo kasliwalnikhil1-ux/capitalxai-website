@@ -21,7 +21,7 @@ const { siteName = 'CapitalxAI', logoHref = '/' } = Astro.props;
         </span>
       </a>
       <p class="footer-brand-desc">
-        Connect with 3000+ investors using AI-powered discovery, personalized pitches, and intelligent outreach.
+        Find the right investors, analyze them with AI, access verified contacts, gain deep intelligence, and run personalized outreach to secure more fundraising meetings, all within a single integrated platform and in just seconds.
       </p>
     </div>
 
@@ -40,9 +40,12 @@ const { siteName = 'CapitalxAI', logoHref = '/' } = Astro.props;
     <div class="footer-col">
       <h4 class="footer-heading">Company</h4>
       <nav class="footer-links" aria-label="Company links">
+        <a href="/vision">Our Vision</a>
         <a href="/privacy">Privacy Policy</a>
         <a href="/terms">Terms of Service</a>
+        <a href="/content-safety">Content Safety</a>
         <a href="/contact">Contact</a>
+        <a href="/careers" class="footer-careers-link">Careers <span class="hiring-badge">We're Hiring</span></a>
       </nav>
     </div>
 
@@ -170,6 +173,28 @@ const { siteName = 'CapitalxAI', logoHref = '/' } = Astro.props;
 
   .footer-links a:hover {
     color: rgba(255, 255, 255, 0.92);
+  }
+
+  /* Careers link with badge */
+  .footer-careers-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .hiring-badge {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: rgba(99, 102, 241, 0.95);
+    background: rgba(99, 102, 241, 0.12);
+    border: 1px solid rgba(99, 102, 241, 0.22);
+    border-radius: 9999px;
+    line-height: 1.4;
+    white-space: nowrap;
   }
 
   /* Social links with icons */

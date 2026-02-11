@@ -1,14 +1,14 @@
 ---
 interface Props {
-  headlineTop: string;
+  typewriterPhrases: string[];
   headlineBottom: string;
   subheading: string;
   primaryCta: { label: string; href: string };
   secondaryCta: { label: string; href: string };
 }
 
-const { headlineTop, headlineBottom, subheading, primaryCta, secondaryCta } = Astro.props;
-const subheadingHtml = subheading.replaceAll('\n', '<br />');
+const { typewriterPhrases, headlineBottom, subheading, primaryCta, secondaryCta } = Astro.props;
+const subheadingHtml = subheading.replaceAll('\n', ' <br class="desktop-break" />');
 ---
 
 <section id="hero" class="hero" aria-labelledby="hero-heading">
@@ -18,7 +18,10 @@ const subheadingHtml = subheading.replaceAll('\n', '<br />');
   </div>
   <div class="container hero-inner">
     <h1 id="hero-heading" class="hero-headline">
-      <span class="headline-top">{headlineTop}</span>
+      <span class="headline-top">Raise <span
+          class="typewriter-text"
+          data-phrases={JSON.stringify(typewriterPhrases)}
+        >{typewriterPhrases[0]}</span><span class="typewriter-cursor" aria-hidden="true">|</span></span>
       <span class="headline-bottom">
         {headlineBottom}
         <span class="headline-rocket" aria-hidden="true">🚀</span>
@@ -147,11 +150,39 @@ const subheadingHtml = subheading.replaceAll('\n', '<br />');
     background: none;
   }
 
+  /* Typewriter effect */
+  .typewriter-text {
+    display: inline;
+  }
+
+  .typewriter-cursor {
+    display: inline-block;
+    color: rgba(255, 255, 255, 0.65);
+    font-weight: 300;
+    margin-left: 1px;
+    animation: cursor-blink 1s step-end infinite;
+  }
+
+  @keyframes cursor-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
   .hero-subheading {
     margin: 0 0 2rem;
     font-size: clamp(1rem, 1.8vw, 1.35rem);
     color: rgba(255, 255, 255, 0.75);
     line-height: 1.7;
+  }
+
+  .hero-subheading :global(.desktop-break) {
+    display: block;
+  }
+
+  @media (max-width: 768px) {
+    .hero-subheading :global(.desktop-break) {
+      display: none;
+    }
   }
 
   .hero-ctas {
@@ -232,7 +263,7 @@ const subheadingHtml = subheading.replaceAll('\n', '<br />');
 
   .preview-img-wrap.preview-left {
     left: 0%;
-    bottom: 8%;
+    bottom: -6%;
     width: min(330px, 26%);
     transform: translate(0, 0);
     z-index: 5;
@@ -305,33 +336,104 @@ const subheadingHtml = subheading.replaceAll('\n', '<br />');
       padding-block: 4.75rem 5.25rem;
     }
 
+    .hero-headline {
+      font-size: 2rem;
+      margin-bottom: 1.25rem;
+    }
+
     .hero-ctas {
       gap: 0.75rem 1rem;
     }
 
     .hero-preview {
       margin-top: 2.25rem;
+      margin-inline: -1.5rem; /* break out of container padding for edge-to-edge */
+      width: calc(100% + 3rem); /* compensate so it's truly full viewport width */
     }
 
     .preview-stack {
-      height: 360px;
+      position: relative;
+      height: auto;
     }
 
+    /* Make center image drive the layout instead of fixed height */
     .preview-img-wrap.preview-center {
-      height: 270px;
-      max-width: 100%;
-      transform: translate(-50%, -50%);
+      position: relative;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: auto;
+      transform: none;
+      border-radius: 10px;
+    }
+
+    .preview-img-wrap.preview-center .preview-center {
+      width: 100%;
+      height: auto;
+      max-width: none;
+      object-fit: fill;
+      border-radius: 10px;
     }
 
     .preview-img-wrap.preview-left {
-      width: 44%;
-      bottom: 10%;
+      width: 32%;
+      left: 4%;
+      bottom: -18%;
     }
 
     .preview-img-wrap.preview-right {
-      width: 58%;
-      bottom: 22%;
-      right: 0;
+      width: 42%;
+      right: 4%;
+      bottom: -4%;
     }
   }
 </style>
+
+<script>
+  const el = document.querySelector<HTMLSpanElement>('.typewriter-text');
+  if (el) {
+    const phrases: string[] = JSON.parse(el.dataset.phrases || '[]');
+    if (phrases.length > 0) {
+      const TYPING_SPEED = 50;
+      const DELETING_SPEED = 30;
+      const PAUSE_DURATION = 1500;
+
+      let phraseIndex = 0;
+      let charIndex = phrases[0].length; // starts fully typed (matches SSR)
+      let isDeleting = false;
+
+      function tick() {
+        const currentPhrase = phrases[phraseIndex];
+
+        if (isDeleting) {
+          charIndex--;
+          el!.textContent = currentPhrase.substring(0, charIndex);
+
+          if (charIndex === 0) {
+            isDeleting = false;
+            phraseIndex = (phraseIndex + 1) % phrases.length;
+            setTimeout(tick, TYPING_SPEED);
+          } else {
+            setTimeout(tick, DELETING_SPEED);
+          }
+        } else {
+          charIndex++;
+          el!.textContent = currentPhrase.substring(0, charIndex);
+
+          if (charIndex === currentPhrase.length) {
+            isDeleting = true;
+            setTimeout(tick, PAUSE_DURATION);
+          } else {
+            setTimeout(tick, TYPING_SPEED);
+          }
+        }
+      }
+
+      // Pause on the initial phrase (already rendered by SSR), then begin cycling
+      setTimeout(() => {
+        isDeleting = true;
+        tick();
+      }, PAUSE_DURATION);
+    }
+  }
+</script>

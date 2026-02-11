@@ -114,7 +114,6 @@ const structuredData = {
 
   html {
     scroll-behavior: smooth;
-    overflow-x: clip;
   }
 
   body {
@@ -125,11 +124,12 @@ const structuredData = {
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    overflow-x: clip;
     overflow-wrap: break-word;
+    overscroll-behavior: none;
   }
 
-  #main-content {
+  #main-content,
+  .footer {
     overflow-x: clip;
     width: 100%;
     max-width: 100%;

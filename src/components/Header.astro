@@ -21,6 +21,7 @@ const { siteName = 'CapitalxAI', logoHref = '/' } = Astro.props;
 
     <nav class="nav" aria-label="Main">
       <a href="https://docs.capitalxai.com/" class="nav-link" target="_blank" rel="noopener noreferrer">Product Tour</a>
+      <a href="/vision" class="nav-link">Vision</a>
       <a href="/pricing" class="nav-link">Pricing</a>
     </nav>
 
@@ -53,6 +54,7 @@ const { siteName = 'CapitalxAI', logoHref = '/' } = Astro.props;
   >
     <nav class="mobile-nav" aria-label="Main">
       <a href="https://docs.capitalxai.com/" class="mobile-nav-link" target="_blank" rel="noopener noreferrer">Product Tour</a>
+      <a href="/vision" class="mobile-nav-link">Vision</a>
       <a href="/pricing" class="mobile-nav-link">Pricing</a>
     </nav>
     <div class="mobile-actions">
@@ -67,6 +69,19 @@ const { siteName = 'CapitalxAI', logoHref = '/' } = Astro.props;
   const hamburger = document.getElementById('hamburger-btn');
   const mobileMenu = document.getElementById('mobile-menu');
   const mobileLinks = document.querySelectorAll('.mobile-nav-link, .mobile-actions .btn');
+  const mobileQuery = window.matchMedia('(max-width: 860px)');
+
+  // On mobile the header is position:fixed, so add body padding to compensate
+  function applyFixedPadding() {
+    if (mobileQuery.matches && header) {
+      document.body.style.paddingTop = header.offsetHeight + 'px';
+    } else {
+      document.body.style.paddingTop = '';
+    }
+  }
+  applyFixedPadding();
+  mobileQuery.addEventListener('change', applyFixedPadding);
+  window.addEventListener('resize', applyFixedPadding);
 
   function openMenu() {
     hamburger?.setAttribute('aria-expanded', 'true');
@@ -100,13 +115,14 @@ const { siteName = 'CapitalxAI', logoHref = '/' } = Astro.props;
     if (e.key === 'Escape') closeMenu();
   });
 
-  window.matchMedia('(min-width: 861px)').addEventListener('change', (e) => {
-    if (e.matches) closeMenu();
+  mobileQuery.addEventListener('change', (e) => {
+    if (!e.matches) closeMenu();
   });
 </script>
 
 <style>
   .header {
+    position: -webkit-sticky;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -279,7 +295,7 @@ const { siteName = 'CapitalxAI', logoHref = '/' } = Astro.props;
     top: 100%;
     left: 0;
     right: 0;
-    background: linear-gradient(180deg, #0b1020 0%, #0b1020 95%, rgba(11, 16, 32, 0.98) 100%);
+    background: #0b1020;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     padding: 1rem 1.5rem 1.5rem;
     display: flex;
@@ -332,7 +348,6 @@ const { siteName = 'CapitalxAI', logoHref = '/' } = Astro.props;
     gap: 0.75rem;
     margin-top: 0.25rem;
     padding-top: 0.75rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.12);
   }
 
   .mobile-actions .btn {
@@ -348,7 +363,15 @@ const { siteName = 'CapitalxAI', logoHref = '/' } = Astro.props;
 
   @media (max-width: 860px) {
     .header {
-      position: sticky;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      border-bottom: none;
+      background: #0b1020;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
     }
 
     .brand-mark {
