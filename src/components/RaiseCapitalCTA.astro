@@ -22,7 +22,7 @@ const {
       <p class="cta-subline">{subline}</p>
       <div class="cta-buttons">
         <a href={primaryCta.href} class="btn btn-primary" target="_blank" rel="noopener noreferrer">
-          {primaryCta.label}
+          {primaryCta.label}<span class="btn-arrow" aria-hidden="true">&rarr;</span>
         </a>
         <a href={secondaryCta.href} class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
           {secondaryCta.label}
@@ -140,6 +140,22 @@ const {
 
   .arrow {
     font-size: 1.1em;
+  }
+
+  .btn-arrow {
+    font-size: 1.15em;
+    opacity: 0.9;
+    transition: transform 0.2s ease;
+  }
+
+  .btn-primary:hover .btn-arrow {
+    transform: translateX(2px);
+  }
+
+  @media (max-width: 768px) {
+    .btn-arrow {
+      display: none;
+    }
   }
 
   @media (max-width: 768px) {

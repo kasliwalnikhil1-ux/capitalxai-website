@@ -7,7 +7,7 @@ import '../styles/global.css';
 
 <BaseLayout
   title="Pricing – CapitalxAI"
-  description="CapitalxAI pricing plans. Your IR reps at a fraction of the cost. Fully managed investor relations starting at $300/month."
+  description="CapitalxAI pricing plans. Your IR reps at a fraction of the cost. Fully automated investor relations starting at $300/month."
   canonical="/pricing"
 >
   <Header />
@@ -21,9 +21,9 @@ import '../styles/global.css';
         </h1>
 
         <div class="pricing-grid">
-          <!-- Left: Fully managed -->
+          <!-- Left: Fully automated -->
           <div class="pricing-left">
-            <h2 class="managed-title">Fully managed</h2>
+            <h2 class="managed-title">Fully automated</h2>
             <p class="managed-desc">
               By taking over the mundane aspects of fundraising, CapitalxAI empowers you to concentrate on what truly matters — forging lasting investor partnerships and bringing visionary projects to fruition.
             </p>
@@ -47,7 +47,7 @@ import '../styles/global.css';
               Contact us for custom pricing based on your stage and sector.
             </p>
             <a href="https://calendly.com/founders-capitalxai/20min" class="card-cta" target="_blank" rel="noopener noreferrer">
-              Start Fundraising
+              Start Fundraising<span class="btn-arrow" aria-hidden="true">&rarr;</span>
             </a>
           </div>
         </div>
@@ -127,7 +127,7 @@ import '../styles/global.css';
     }
   }
 
-  /* Left side: Fully managed */
+  /* Left side: Fully automated */
   .pricing-left {
     position: relative;
     z-index: 1;
@@ -231,7 +231,21 @@ import '../styles/global.css';
     font-size: 1.1em;
   }
 
+  .btn-arrow {
+    font-size: 1.15em;
+    opacity: 0.9;
+    transition: transform 0.2s ease;
+  }
+
+  .card-cta:hover .btn-arrow {
+    transform: translateX(2px);
+  }
+
   @media (max-width: 768px) {
+    .btn-arrow {
+      display: none;
+    }
+
     .pricing-hero {
       padding-block: 3rem 4rem;
     }

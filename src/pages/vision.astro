@@ -272,7 +272,7 @@ import '../styles/global.css';
         </p>
         <div class="cta-actions">
           <a href="https://calendly.com/founders-capitalxai/20min" class="cta-btn cta-btn--solid" target="_blank" rel="noopener noreferrer">
-            Start Fundraising
+            Start Fundraising<span class="btn-arrow" aria-hidden="true">&rarr;</span>
           </a>
           <a href="https://app.capitalxai.com/signup" class="cta-btn cta-btn--outline" target="_blank" rel="noopener noreferrer">
             Try CapitalxAI
@@ -743,6 +743,16 @@ import '../styles/global.css';
     color: rgba(255, 255, 255, 0.92);
   }
 
+  .btn-arrow {
+    font-size: 1.15em;
+    opacity: 0.9;
+    transition: transform 0.2s ease;
+  }
+
+  .cta-btn--solid:hover .btn-arrow {
+    transform: translateX(2px);
+  }
+
   /* ═══════════════════════════════════════════
      RESPONSIVE
      ═══════════════════════════════════════════ */
@@ -759,6 +769,10 @@ import '../styles/global.css';
     .hero-glow--right {
       right: -20%;
       width: 60%;
+    }
+
+    .btn-arrow {
+      display: none;
     }
 
     .section-problem,

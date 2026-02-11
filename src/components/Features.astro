@@ -49,6 +49,9 @@ const gif2Src = gif2 || '/Persistent outreach strategy.gif';
 
 <section class="features" aria-labelledby="features-title">
   <div class="container">
+    <div class="updated-badge-wrapper">
+      <span class="updated-badge" id="updated-badge"></span>
+    </div>
     <h2 id="features-title" class="features-title">{title}</h2>
     {subheading && <p class="features-subheading">{subheading}</p>}
     
@@ -133,6 +136,26 @@ const gif2Src = gif2 || '/Persistent outreach strategy.gif';
 </section>
 
 <style>
+  .updated-badge-wrapper {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .updated-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: rgba(99, 102, 241, 0.95);
+    background: rgba(99, 102, 241, 0.12);
+    border: 1px solid rgba(99, 102, 241, 0.22);
+    border-radius: 9999px;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+
   .features {
     padding-block: 5rem 6rem;
     background: #0b1020; /* Match homepage color theme */
@@ -337,3 +360,13 @@ const gif2Src = gif2 || '/Persistent outreach strategy.gif';
     }
   }
 </style>
+
+<script>
+  const badge = document.getElementById('updated-badge');
+  if (badge) {
+    const now = new Date();
+    const month = now.toLocaleString('en-US', { month: 'long' });
+    const year = now.getFullYear();
+    badge.textContent = `Updated for ${month} ${year}`;
+  }
+</script>

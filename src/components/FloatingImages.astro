@@ -21,11 +21,14 @@ const {
 <section class="floating-images" aria-labelledby="booked-meetings-title">
   <div class="container floating-header">
     <div class="header-text">
+      <div class="proof-badge-wrapper">
+        <span class="proof-badge">Proof it works</span>
+      </div>
       <h2 id="booked-meetings-title" class="section-title">{title}</h2>
       <p class="section-subheading">{subheading}</p>
     </div>
     <a href={ctaHref} class="cta-button" target="_blank" rel="noopener noreferrer">
-      {ctaLabel}
+      {ctaLabel}<span class="btn-arrow" aria-hidden="true">&rarr;</span>
     </a>
   </div>
   <div class="floating-images-inner">
@@ -53,6 +56,25 @@ const {
 </section>
 
 <style>
+  .proof-badge-wrapper {
+    margin-bottom: 1rem;
+  }
+
+  .proof-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: rgba(99, 102, 241, 0.95);
+    background: rgba(99, 102, 241, 0.12);
+    border: 1px solid rgba(99, 102, 241, 0.22);
+    border-radius: 9999px;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+
   .floating-images {
     padding-block: 4rem 5rem;
     background: #0b1020;
@@ -115,6 +137,22 @@ const {
 
   .cta-arrow {
     font-size: 1.1em;
+  }
+
+  .btn-arrow {
+    font-size: 1.15em;
+    opacity: 0.9;
+    transition: transform 0.2s ease;
+  }
+
+  .cta-button:hover .btn-arrow {
+    transform: translateX(2px);
+  }
+
+  @media (max-width: 768px) {
+    .btn-arrow {
+      display: none;
+    }
   }
 
   .floating-images-inner {

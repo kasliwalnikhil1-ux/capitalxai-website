@@ -27,7 +27,7 @@ const { siteName = 'CapitalxAI', logoHref = '/' } = Astro.props;
 
     <div class="actions" aria-label="Header actions">
       <a class="btn btn-outline" href="https://app.capitalxai.com/signup" target="_blank" rel="noopener noreferrer">Login</a>
-      <a class="btn btn-solid" href="https://calendly.com/founders-capitalxai/20min" target="_blank" rel="noopener noreferrer">Start fundraising</a>
+      <a class="btn btn-solid" href="https://calendly.com/founders-capitalxai/20min" target="_blank" rel="noopener noreferrer">Start fundraising<span class="btn-arrow" aria-hidden="true">&rarr;</span></a>
     </div>
 
     <button
@@ -235,6 +235,16 @@ const { siteName = 'CapitalxAI', logoHref = '/' } = Astro.props;
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
   }
 
+  .btn-arrow {
+    font-size: 1.15em;
+    opacity: 0.9;
+    transition: transform 0.2s ease;
+  }
+
+  .btn:hover .btn-arrow {
+    transform: translateX(2px);
+  }
+
   .btn:hover {
     transform: translateY(-1px);
     opacity: 0.98;
@@ -394,6 +404,10 @@ const { siteName = 'CapitalxAI', logoHref = '/' } = Astro.props;
 
     .nav,
     .actions {
+      display: none;
+    }
+
+    .btn-arrow {
       display: none;
     }
 

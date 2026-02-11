@@ -30,7 +30,7 @@ const subheadingHtml = subheading.replaceAll('\n', ' <br class="desktop-break" /
     <p class="hero-subheading" set:html={subheadingHtml} />
     <div class="hero-ctas">
       <a href={primaryCta.href} class="btn btn-primary" target="_blank" rel="noopener noreferrer">
-        {primaryCta.label}
+        {primaryCta.label}<span class="btn-arrow" aria-hidden="true">&rarr;</span>
       </a>
       <a href={secondaryCta.href} class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
         {secondaryCta.label}
@@ -328,6 +328,22 @@ const subheadingHtml = subheading.replaceAll('\n', ' <br class="desktop-break" /
   .arrow {
     font-size: 1.15em;
     opacity: 0.95;
+  }
+
+  .btn-arrow {
+    font-size: 1.15em;
+    opacity: 0.9;
+    transition: transform 0.2s ease;
+  }
+
+  .btn-primary:hover .btn-arrow {
+    transform: translateX(2px);
+  }
+
+  @media (max-width: 768px) {
+    .btn-arrow {
+      display: none;
+    }
   }
 
   @media (max-width: 520px) {
