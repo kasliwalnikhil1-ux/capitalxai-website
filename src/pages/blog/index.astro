@@ -1,0 +1,469 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import '../../styles/global.css';
+
+// Get all non-draft blog posts, sorted by date (newest first)
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+
+// Collect all unique tags
+const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
+
+const siteUrl = Astro.site?.toString() ?? 'https://capitalxai.com';
+
+// Blog listing structured data
+const blogListingData = {
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  name: 'CapitalxAI Blog',
+  description: 'Insights on AI-powered fundraising, investor discovery, startup growth, and venture capital strategies.',
+  url: new URL('/blog', siteUrl).href,
+  publisher: {
+    '@type': 'Organization',
+    name: 'CapitalxAI',
+    url: siteUrl,
+  },
+  blogPost: posts.map((post) => ({
+    '@type': 'BlogPosting',
+    headline: post.data.title,
+    description: post.data.description,
+    datePublished: post.data.publishDate.toISOString(),
+    author: {
+      '@type': 'Person',
+      name: post.data.author,
+    },
+    url: new URL(`/blog/${post.slug}`, siteUrl).href,
+  })),
+};
+---
+
+<BaseLayout
+  title="Blog — CapitalxAI | AI-Powered Fundraising Insights"
+  description="Insights on AI-powered fundraising, investor discovery, startup growth, and venture capital strategies from the CapitalxAI team."
+  ogType="website"
+>
+  <Header />
+
+  <main class="blog-index" id="main-content">
+    <!-- Decorative background glow -->
+    <div class="blog-bg-glow" aria-hidden="true"></div>
+
+    <div class="container">
+      <!-- Hero section -->
+      <header class="blog-hero">
+        <span class="blog-hero-label">Blog</span>
+        <h1 class="blog-hero-title">Insights & Resources</h1>
+        <p class="blog-hero-description">
+          Practical strategies for AI-powered fundraising, investor discovery, and startup growth.
+        </p>
+      </header>
+
+      <!-- Tag filters -->
+      {allTags.length > 0 && (
+        <div class="blog-tags" role="list" aria-label="Filter by topic">
+          <span class="tag-filter active" data-tag="all" role="listitem">All</span>
+          {allTags.map((tag) => (
+            <span class="tag-filter" data-tag={tag} role="listitem">{tag}</span>
+          ))}
+        </div>
+      )}
+
+      <!-- Posts grid -->
+      <div class="posts-grid">
+        {posts.map((post, index) => {
+          const formattedDate = post.data.publishDate.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+          });
+
+          return (
+            <article class={`post-card ${index === 0 ? 'post-card--featured' : ''}`} data-tags={post.data.tags.join(',')}>
+              <a href={`/blog/${post.slug}`} class="post-card-link">
+                <div class="post-card-content">
+                  {post.data.tags.length > 0 && (
+                    <div class="post-card-tags">
+                      {post.data.tags.slice(0, 3).map((tag) => (
+                        <span class="post-card-tag">{tag}</span>
+                      ))}
+                    </div>
+                  )}
+                  <h2 class="post-card-title">{post.data.title}</h2>
+                  <p class="post-card-description">{post.data.description}</p>
+                  <div class="post-card-meta">
+                    <div class="post-card-author-avatar">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                      </svg>
+                    </div>
+                    <span class="post-card-author">{post.data.author}</span>
+                    <span class="post-card-separator" aria-hidden="true">&middot;</span>
+                    <time datetime={post.data.publishDate.toISOString()}>{formattedDate}</time>
+                  </div>
+                </div>
+                <span class="post-card-arrow" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
+                  </svg>
+                </span>
+              </a>
+            </article>
+          );
+        })}
+      </div>
+
+      {posts.length === 0 && (
+        <div class="no-posts">
+          <div class="no-posts-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" />
+            </svg>
+          </div>
+          <p>No posts yet. Check back soon!</p>
+        </div>
+      )}
+    </div>
+  </main>
+
+  <Footer />
+
+  <!-- Blog structured data -->
+  <script type="application/ld+json" set:html={JSON.stringify(blogListingData)} />
+</BaseLayout>
+
+<script>
+  // Tag filtering
+  const tagFilters = document.querySelectorAll('.tag-filter');
+  const postCards = document.querySelectorAll('.post-card');
+
+  tagFilters.forEach((filter) => {
+    filter.addEventListener('click', () => {
+      const selectedTag = filter.getAttribute('data-tag');
+
+      // Update active state
+      tagFilters.forEach((f) => f.classList.remove('active'));
+      filter.classList.add('active');
+
+      // Filter posts
+      postCards.forEach((card) => {
+        const cardTags = card.getAttribute('data-tags')?.split(',') ?? [];
+        if (selectedTag === 'all' || cardTags.includes(selectedTag!)) {
+          (card as HTMLElement).style.display = '';
+        } else {
+          (card as HTMLElement).style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .blog-index {
+    position: relative;
+    padding-block: 3rem 5rem;
+    min-height: 60vh;
+  }
+
+  /* Subtle background glow matching site theme */
+  .blog-bg-glow {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 400px;
+    background: radial-gradient(ellipse at center, rgba(99, 102, 241, 0.06) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Hero */
+  .blog-hero {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .blog-hero-label {
+    display: inline-block;
+    margin-bottom: 1rem;
+    padding: 0.3rem 0.9rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    background: var(--color-accent-muted);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    border-radius: 9999px;
+  }
+
+  .blog-hero-title {
+    margin: 0 0 1rem;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .blog-hero-description {
+    margin: 0 auto;
+    max-width: 36rem;
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+  }
+
+  /* Tag filters */
+  .blog-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .tag-filter {
+    display: inline-block;
+    padding: 0.35rem 0.85rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all var(--transition);
+    user-select: none;
+    text-transform: capitalize;
+  }
+
+  .tag-filter:hover {
+    color: var(--color-text);
+    border-color: rgba(255, 255, 255, 0.15);
+    background: var(--color-bg-elevated);
+  }
+
+  .tag-filter.active {
+    color: var(--color-accent);
+    background: var(--color-accent-muted);
+    border-color: rgba(99, 102, 241, 0.3);
+  }
+
+  /* Posts grid */
+  .posts-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    max-width: 52rem;
+    margin: 0 auto;
+  }
+
+  /* Post card */
+  .post-card {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition), background var(--transition);
+  }
+
+  .post-card:hover {
+    border-color: rgba(99, 102, 241, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(99, 102, 241, 0.08);
+    background: var(--color-bg-elevated);
+  }
+
+  /* Featured first card */
+  .post-card--featured {
+    border-color: rgba(99, 102, 241, 0.12);
+    background: linear-gradient(135deg, var(--color-surface) 0%, rgba(99, 102, 241, 0.04) 100%);
+  }
+
+  .post-card--featured .post-card-link {
+    padding: 2rem;
+  }
+
+  .post-card--featured .post-card-title {
+    font-size: 1.5rem;
+  }
+
+  .post-card-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.75rem;
+    gap: 1.5rem;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .post-card-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .post-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .post-card-tag {
+    display: inline-block;
+    padding: 0.15rem 0.55rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    background: var(--color-accent-muted);
+    border-radius: 9999px;
+  }
+
+  .post-card-title {
+    margin: 0 0 0.5rem;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+    color: var(--color-text);
+  }
+
+  .post-card-description {
+    margin: 0 0 0.75rem;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--color-text-muted);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .post-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.82rem;
+    color: var(--color-text-muted);
+  }
+
+  .post-card-author-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--color-accent-muted);
+    color: var(--color-accent);
+    flex-shrink: 0;
+  }
+
+  .post-card-author {
+    font-weight: 500;
+  }
+
+  .post-card-separator {
+    opacity: 0.4;
+  }
+
+  .post-card-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: var(--color-text-muted);
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    transition: all var(--transition);
+    flex-shrink: 0;
+  }
+
+  .post-card:hover .post-card-arrow {
+    transform: translateX(4px);
+    color: var(--color-accent-hover);
+    border-color: rgba(99, 102, 241, 0.3);
+    background: var(--color-accent-muted);
+  }
+
+  /* Empty state */
+  .no-posts {
+    text-align: center;
+    padding: 5rem 2rem;
+    color: var(--color-text-muted);
+  }
+
+  .no-posts-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    border-radius: 50%;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+  }
+
+  .no-posts p {
+    font-size: 1.1rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .blog-index {
+      padding-block: 1.5rem 3rem;
+    }
+
+    .blog-hero {
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+    }
+
+    .blog-bg-glow {
+      width: 400px;
+      height: 200px;
+    }
+
+    .post-card-link {
+      padding: 1.25rem;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .post-card--featured .post-card-link {
+      padding: 1.25rem;
+    }
+
+    .post-card-arrow {
+      display: none;
+    }
+
+    .post-card-title {
+      font-size: 1.15rem;
+    }
+
+    .post-card--featured .post-card-title {
+      font-size: 1.2rem;
+    }
+  }
+</style>

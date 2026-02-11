@@ -82,6 +82,9 @@ const structuredData = {
 
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Extra head content from child layouts -->
+    <slot name="head" />
   </head>
   <body>
     <slot />
