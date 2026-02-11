@@ -1,0 +1,106 @@
+---
+interface Props {
+  author: string;
+  avatar: string;
+  publishDate: Date;
+  updatedDate?: Date;
+}
+
+const { author, avatar, publishDate, updatedDate } = Astro.props;
+
+const formattedPublish = publishDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const formattedUpdated = updatedDate?.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<div class="author-box-compact">
+  <img
+    src={avatar}
+    alt={`Photo of ${author}`}
+    class="author-avatar-sm"
+    width="40"
+    height="40"
+    loading="eager"
+  />
+  <div class="author-info-compact">
+    <div class="author-name-row">
+      <span class="author-name-compact" itemprop="author" itemscope itemtype="https://schema.org/Person">
+        <span itemprop="name">{author}</span>
+      </span>
+      <span class="author-tagline">Y-Combinator · IIT-B · CapitalxAI · Kaptured.AI</span>
+    </div>
+    <div class="author-dates-compact">
+      <time datetime={publishDate.toISOString()} itemprop="datePublished">
+        {formattedPublish}
+      </time>
+      {formattedUpdated && formattedUpdated !== formattedPublish && (
+        <span class="updated-label-compact">
+          &middot; Updated{' '}
+          <time datetime={updatedDate!.toISOString()} itemprop="dateModified">
+            {formattedUpdated}
+          </time>
+        </span>
+      )}
+    </div>
+  </div>
+</div>
+
+<style>
+  .author-box-compact {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .author-avatar-sm {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(99, 102, 241, 0.2);
+    flex-shrink: 0;
+  }
+
+  .author-info-compact {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  .author-name-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.4rem;
+  }
+
+  .author-name-compact {
+    font-weight: 600;
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .author-tagline {
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    opacity: 0.75;
+  }
+
+  .author-dates-compact {
+    font-size: 0.82rem;
+    color: var(--color-text-muted);
+  }
+
+  .updated-label-compact {
+    font-style: italic;
+    opacity: 0.85;
+  }
+</style>

@@ -31,9 +31,11 @@ const blogListingData = {
     headline: post.data.title,
     description: post.data.description,
     datePublished: post.data.publishDate.toISOString(),
+    ...(post.data.updatedDate && { dateModified: post.data.updatedDate.toISOString() }),
     author: {
       '@type': 'Person',
       name: post.data.author,
+      image: new URL(post.data.authorAvatar, siteUrl).href,
     },
     url: new URL(`/blog/${post.slug}`, siteUrl).href,
   })),
@@ -83,6 +85,17 @@ const blogListingData = {
           return (
             <article class={`post-card ${index === 0 ? 'post-card--featured' : ''}`} data-tags={post.data.tags.join(',')}>
               <a href={`/blog/${post.slug}`} class="post-card-link">
+                {post.data.image && (
+                  <div class="post-card-image">
+                    <img
+                      src={post.data.image}
+                      alt={post.data.imageAlt || post.data.title}
+                      loading={index < 3 ? 'eager' : 'lazy'}
+                      width="600"
+                      height="338"
+                    />
+                  </div>
+                )}
                 <div class="post-card-content">
                   {post.data.tags.length > 0 && (
                     <div class="post-card-tags">
@@ -94,22 +107,19 @@ const blogListingData = {
                   <h2 class="post-card-title">{post.data.title}</h2>
                   <p class="post-card-description">{post.data.description}</p>
                   <div class="post-card-meta">
-                    <div class="post-card-author-avatar">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                        <circle cx="12" cy="7" r="4" />
-                      </svg>
-                    </div>
+                    <img
+                      src={post.data.authorAvatar}
+                      alt={`Photo of ${post.data.author}`}
+                      class="post-card-author-avatar-img"
+                      width="24"
+                      height="24"
+                      loading="lazy"
+                    />
                     <span class="post-card-author">{post.data.author}</span>
                     <span class="post-card-separator" aria-hidden="true">&middot;</span>
                     <time datetime={post.data.publishDate.toISOString()}>{formattedDate}</time>
                   </div>
                 </div>
-                <span class="post-card-arrow" aria-hidden="true">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
-                  </svg>
-                </span>
               </a>
             </article>
           );
@@ -263,37 +273,51 @@ const blogListingData = {
     border-color: rgba(99, 102, 241, 0.3);
   }
 
-  /* Posts grid */
+  /* Posts grid — column card layout */
   .posts-grid {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.25rem;
-    max-width: 52rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    max-width: 72rem;
     margin: 0 auto;
   }
 
   /* Post card */
   .post-card {
+    display: flex;
+    flex-direction: column;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     background: var(--color-surface);
+    overflow: hidden;
     transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition), background var(--transition);
   }
 
   .post-card:hover {
-    border-color: rgba(99, 102, 241, 0.2);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(99, 102, 241, 0.08);
+    border-color: rgba(99, 102, 241, 0.25);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(99, 102, 241, 0.08);
     background: var(--color-bg-elevated);
   }
 
-  /* Featured first card */
+  /* Featured first card — spans full width */
   .post-card--featured {
+    grid-column: 1 / -1;
     border-color: rgba(99, 102, 241, 0.12);
     background: linear-gradient(135deg, var(--color-surface) 0%, rgba(99, 102, 241, 0.04) 100%);
   }
 
   .post-card--featured .post-card-link {
+    flex-direction: row;
+  }
+
+  .post-card--featured .post-card-image {
+    flex: 0 0 45%;
+    max-width: 45%;
+    aspect-ratio: 16 / 9;
+  }
+
+  .post-card--featured .post-card-content {
     padding: 2rem;
   }
 
@@ -301,18 +325,42 @@ const blogListingData = {
     font-size: 1.5rem;
   }
 
+  .post-card--featured .post-card-description {
+    -webkit-line-clamp: 3;
+  }
+
   .post-card-link {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.75rem;
-    gap: 1.5rem;
+    flex-direction: column;
     text-decoration: none;
     color: inherit;
+    height: 100%;
+  }
+
+  /* Post card image */
+  .post-card-image {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--color-bg);
+    flex-shrink: 0;
+  }
+
+  .post-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .post-card:hover .post-card-image img {
+    transform: scale(1.05);
   }
 
   .post-card-content {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1.25rem 1.5rem 1.5rem;
     min-width: 0;
   }
 
@@ -337,16 +385,20 @@ const blogListingData = {
 
   .post-card-title {
     margin: 0 0 0.5rem;
-    font-size: 1.3rem;
+    font-size: 1.15rem;
     font-weight: 700;
     letter-spacing: -0.02em;
     line-height: 1.3;
     color: var(--color-text);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .post-card-description {
     margin: 0 0 0.75rem;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     line-height: 1.55;
     color: var(--color-text-muted);
     display: -webkit-box;
@@ -359,19 +411,18 @@ const blogListingData = {
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     color: var(--color-text-muted);
+    margin-top: auto;
+    padding-top: 0.5rem;
   }
 
-  .post-card-author-avatar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 22px;
-    height: 22px;
+  .post-card-author-avatar-img {
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
-    background: var(--color-accent-muted);
-    color: var(--color-accent);
+    object-fit: cover;
+    border: 1.5px solid rgba(99, 102, 241, 0.2);
     flex-shrink: 0;
   }
 
@@ -381,27 +432,6 @@ const blogListingData = {
 
   .post-card-separator {
     opacity: 0.4;
-  }
-
-  .post-card-arrow {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    color: var(--color-text-muted);
-    background: var(--color-bg-elevated);
-    border: 1px solid var(--color-border);
-    transition: all var(--transition);
-    flex-shrink: 0;
-  }
-
-  .post-card:hover .post-card-arrow {
-    transform: translateX(4px);
-    color: var(--color-accent-hover);
-    border-color: rgba(99, 102, 241, 0.3);
-    background: var(--color-accent-muted);
   }
 
   /* Empty state */
@@ -428,7 +458,23 @@ const blogListingData = {
     font-size: 1.1rem;
   }
 
-  /* Responsive */
+  /* Responsive — tablet */
+  @media (min-width: 641px) and (max-width: 960px) {
+    .posts-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .post-card--featured {
+      grid-column: 1 / -1;
+    }
+
+    .post-card--featured .post-card-image {
+      flex: 0 0 40%;
+      max-width: 40%;
+    }
+  }
+
+  /* Responsive — mobile */
   @media (max-width: 640px) {
     .blog-index {
       padding-block: 1.5rem 3rem;
@@ -444,26 +490,38 @@ const blogListingData = {
       height: 200px;
     }
 
-    .post-card-link {
-      padding: 1.25rem;
-      flex-direction: column;
-      align-items: stretch;
+    .posts-grid {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    .post-card--featured {
+      grid-column: 1;
     }
 
     .post-card--featured .post-card-link {
+      flex-direction: column;
+    }
+
+    .post-card--featured .post-card-image {
+      flex: none;
+      max-width: 100%;
+    }
+
+    .post-card--featured .post-card-content {
       padding: 1.25rem;
-    }
-
-    .post-card-arrow {
-      display: none;
-    }
-
-    .post-card-title {
-      font-size: 1.15rem;
     }
 
     .post-card--featured .post-card-title {
       font-size: 1.2rem;
+    }
+
+    .post-card-content {
+      padding: 1rem 1.25rem 1.25rem;
+    }
+
+    .post-card-title {
+      font-size: 1.05rem;
     }
   }
 </style>

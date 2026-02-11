@@ -1,8 +1,11 @@
 ---
 title: "AI-Powered Investor Discovery: How It Works and Why It Matters"
 description: "A deep dive into how AI algorithms match startups with the right investors, the technology behind it, and why it outperforms manual research."
-author: "CapitalxAI Team"
+author: "Naman Kasliwal"
+authorAvatar: "/images/avatar.jpg"
+authorBio: "Naman Kasliwal is a YC-backed founder building CapitalxAI and Kaptured.AI. An IIT Bombay alumnus, he has previously built and exited PillarPlus, delivering 1,000+ construction projects across 20+ countries using AI."
 publishDate: "2025-07-20"
+updatedDate: "2025-07-20"
 tags: ["AI", "investor discovery", "technology", "fundraising"]
 image: "/Open Graph CapitalxAI.png"
 imageAlt: "AI-powered investor matching visualization"

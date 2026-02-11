@@ -1,42 +1,77 @@
 ---
+import type { CollectionEntry } from 'astro:content';
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
 interface Props {
   title: string;
   description: string;
   author: string;
+  authorAvatar?: string;
+  authorBio?: string;
   publishDate: Date;
   updatedDate?: Date;
   tags?: string[];
   image?: string;
   imageAlt?: string;
+  headings?: Heading[];
+  currentSlug?: string;
+  allPosts?: CollectionEntry<'blog'>[];
 }
 
 const {
   title,
   description,
   author,
+  authorAvatar = '/images/avatar.jpg',
+  authorBio,
   publishDate,
   updatedDate,
   tags = [],
   image,
   imageAlt,
+  headings = [],
+  currentSlug,
+  allPosts = [],
 } = Astro.props;
+
+// --- Related Posts logic ---
+function getRelatedPosts(
+  currentSlug: string | undefined,
+  currentTags: string[],
+  allPosts: CollectionEntry<'blog'>[],
+  max: number = 3
+): CollectionEntry<'blog'>[] {
+  if (!currentSlug) return [];
+
+  // Exclude the current post
+  const otherPosts = allPosts.filter((p) => p.slug !== currentSlug);
+
+  // Score each post by number of shared tags
+  const scored = otherPosts.map((post) => {
+    const sharedTags = post.data.tags.filter((t: string) => currentTags.includes(t));
+    return { post, score: sharedTags.length };
+  });
+
+  // Sort by score (most shared tags first), then by publishDate (newest first)
+  scored.sort((a, b) => {
+    if (b.score !== a.score) return b.score - a.score;
+    return b.post.data.publishDate.getTime() - a.post.data.publishDate.getTime();
+  });
+
+  return scored.slice(0, max).map((s) => s.post);
+}
+
+const relatedPosts = getRelatedPosts(currentSlug, tags, allPosts);
 
 const siteUrl = Astro.site?.toString() ?? 'https://capitalxai.com';
 const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
 const defaultOgImage = new URL('/Open Graph CapitalxAI.png', siteUrl).href;
 const imageUrl = image ? new URL(image, siteUrl).href : defaultOgImage;
-
-const formattedDate = publishDate.toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
-
-const formattedUpdatedDate = updatedDate?.toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
 
 // JSON-LD structured data for BlogPosting
 const structuredData = {
@@ -47,6 +82,8 @@ const structuredData = {
   author: {
     '@type': 'Person',
     name: author,
+    image: new URL(authorAvatar, siteUrl).href,
+    url: siteUrl,
   },
   publisher: {
     '@type': 'Organization',
@@ -96,6 +133,9 @@ const breadcrumbData = {
 import BaseLayout from './BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import BlogAuthor from '../components/BlogAuthor.astro';
+import AboutAuthor from '../components/AboutAuthor.astro';
 import '../styles/global.css';
 ---
 
@@ -139,32 +179,25 @@ import '../styles/global.css';
         <h1 class="article-title" itemprop="headline">{title}</h1>
         <p class="article-description">{description}</p>
         <div class="article-meta">
-          <div class="author-avatar">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-              <circle cx="12" cy="7" r="4" />
-            </svg>
-          </div>
-          <div class="meta-text">
-            <span class="article-author" itemprop="author">{author}</span>
-            <div class="meta-dates">
-              <time datetime={publishDate.toISOString()} itemprop="datePublished">
-                {formattedDate}
-              </time>
-              {formattedUpdatedDate && (
-                <span class="updated-label">
-                  &middot; Updated <time datetime={updatedDate!.toISOString()} itemprop="dateModified">{formattedUpdatedDate}</time>
-                </span>
-              )}
-            </div>
-          </div>
+          <BlogAuthor
+            author={author}
+            avatar={authorAvatar}
+            publishDate={publishDate}
+            updatedDate={updatedDate}
+          />
         </div>
       </header>
+
+      <!-- Table of Contents -->
+      {headings.length > 0 && <TableOfContents headings={headings} />}
 
       <!-- Article content -->
       <div class="article-content prose" itemprop="articleBody">
         <slot />
       </div>
+
+      <!-- About the Author -->
+      <AboutAuthor author={author} avatar={authorAvatar} bio={authorBio} />
 
       <!-- Back to blog link -->
       <footer class="article-footer">
@@ -176,6 +209,49 @@ import '../styles/global.css';
         </a>
       </footer>
     </article>
+
+    {relatedPosts.length > 0 && (
+      <section class="related-posts container" aria-labelledby="related-posts-heading">
+        <h2 id="related-posts-heading" class="related-posts-title">Related Posts</h2>
+        <div class="related-grid">
+          {relatedPosts.map((related) => {
+            const relatedDate = related.data.publishDate.toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            });
+            return (
+              <a href={`/blog/${related.slug}`} class="related-card">
+                {related.data.image && (
+                  <div class="related-card-image">
+                    <img
+                      src={related.data.image}
+                      alt={related.data.imageAlt || related.data.title}
+                      loading="lazy"
+                      width="400"
+                      height="225"
+                    />
+                  </div>
+                )}
+                <div class="related-card-body">
+                  {related.data.tags.length > 0 && (
+                    <div class="related-card-tags">
+                      {related.data.tags.slice(0, 2).map((t: string) => (
+                        <span class="tag">{t}</span>
+                      ))}
+                    </div>
+                  )}
+                  <h3 class="related-card-title">{related.data.title}</h3>
+                  <time class="related-card-date" datetime={related.data.publishDate.toISOString()}>
+                    {relatedDate}
+                  </time>
+                </div>
+              </a>
+            );
+          })}
+        </div>
+      </section>
+    )}
   </main>
 
   <Footer />
@@ -273,45 +349,8 @@ import '../styles/global.css';
   }
 
   .article-meta {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
     font-size: 0.9rem;
     color: var(--color-text-muted);
-  }
-
-  .author-avatar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: var(--color-accent-muted);
-    color: var(--color-accent);
-    flex-shrink: 0;
-  }
-
-  .meta-text {
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-  }
-
-  .article-author {
-    font-weight: 600;
-    color: var(--color-text);
-    font-size: 0.95rem;
-  }
-
-  .meta-dates {
-    font-size: 0.82rem;
-    color: var(--color-text-muted);
-  }
-
-  .updated-label {
-    font-style: italic;
-    opacity: 0.85;
   }
 
   /* Article footer */
@@ -492,6 +531,100 @@ import '../styles/global.css';
     border: 1px solid var(--color-border);
   }
 
+  /* Related Posts */
+  .related-posts {
+    max-width: 64rem;
+    margin-top: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .related-posts-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--color-text);
+    margin: 0 0 1.75rem;
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .related-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+  }
+
+  .related-card:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  }
+
+  .related-card-image {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--color-bg);
+  }
+
+  .related-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition);
+  }
+
+  .related-card:hover .related-card-image img {
+    transform: scale(1.04);
+  }
+
+  .related-card-body {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    flex: 1;
+  }
+
+  .related-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+  }
+
+  .related-card-tags .tag {
+    font-size: 0.65rem;
+    padding: 0.15rem 0.5rem;
+  }
+
+  .related-card-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--color-text);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .related-card-date {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    margin-top: auto;
+  }
+
   /* Responsive */
   @media (max-width: 640px) {
     .blog-post {
@@ -516,6 +649,25 @@ import '../styles/global.css';
 
     .prose h3 {
       font-size: 1.15rem;
+    }
+
+    .related-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .related-posts {
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+    }
+
+    .related-posts-title {
+      font-size: 1.25rem;
+    }
+  }
+
+  @media (min-width: 641px) and (max-width: 900px) {
+    .related-grid {
+      grid-template-columns: repeat(2, 1fr);
     }
   }
 </style>

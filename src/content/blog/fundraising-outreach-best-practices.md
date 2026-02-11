@@ -1,8 +1,11 @@
 ---
 title: "10 Fundraising Outreach Best Practices That Actually Work"
 description: "Battle-tested strategies for cold emailing investors, writing compelling pitch emails, and following up without being annoying. Backed by data from thousands of founder campaigns."
-author: "CapitalxAI Team"
+author: "Naman Kasliwal"
+authorAvatar: "/images/avatar.jpg"
+authorBio: "Naman Kasliwal is a YC-backed founder building CapitalxAI and Kaptured.AI. An IIT Bombay alumnus, he has previously built and exited PillarPlus, delivering 1,000+ construction projects across 20+ countries using AI."
 publishDate: "2025-08-10"
+updatedDate: "2025-08-10"
 tags: ["outreach", "fundraising", "email", "best practices", "startups"]
 image: "/Open Graph CapitalxAI.png"
 imageAlt: "Email outreach strategy for fundraising"

@@ -1,8 +1,11 @@
 ---
 title: "How to Raise Seed Funding with AI-Powered Tools in 2025"
 description: "Learn how AI is transforming the fundraising landscape for startups. Discover practical strategies to find investors, craft outreach, and close your seed round faster."
-author: "CapitalxAI Team"
+author: "Naman Kasliwal"
+authorAvatar: "/images/avatar.jpg"
+authorBio: "Naman Kasliwal is a YC-backed founder building CapitalxAI and Kaptured.AI. An IIT Bombay alumnus, he has previously built and exited PillarPlus, delivering 1,000+ construction projects across 20+ countries using AI."
 publishDate: "2025-06-15"
+updatedDate: "2025-06-15"
 tags: ["fundraising", "seed funding", "AI", "startups"]
 image: "/Open Graph CapitalxAI.png"
 imageAlt: "CapitalxAI fundraising platform dashboard"

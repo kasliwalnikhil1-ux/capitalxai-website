@@ -1,0 +1,101 @@
+---
+interface Props {
+  author: string;
+  avatar: string;
+  bio?: string;
+}
+
+const { author, avatar, bio } = Astro.props;
+---
+
+{bio && (
+  <aside class="about-author" aria-label="About the author">
+    <h2 class="about-author-heading">About the Author</h2>
+    <div class="about-author-card">
+      <img
+        src={avatar}
+        alt={`Photo of ${author}`}
+        class="about-author-avatar"
+        width="72"
+        height="72"
+        loading="lazy"
+      />
+      <div class="about-author-body">
+        <p class="about-author-name">{author}</p>
+        <p class="about-author-bio">{bio}</p>
+      </div>
+    </div>
+  </aside>
+)}
+
+<style>
+  .about-author {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .about-author-heading {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--color-text);
+    margin: 0 0 1.25rem;
+  }
+
+  .about-author-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    padding: 1.5rem;
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+  }
+
+  .about-author-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(99, 102, 241, 0.25);
+    flex-shrink: 0;
+  }
+
+  .about-author-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 0;
+  }
+
+  .about-author-name {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-text);
+    letter-spacing: -0.01em;
+  }
+
+  .about-author-bio {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: var(--color-text-muted);
+  }
+
+  @media (max-width: 640px) {
+    .about-author-card {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1rem;
+      padding: 1.25rem;
+    }
+
+    .about-author-avatar {
+      width: 64px;
+      height: 64px;
+    }
+  }
+</style>
